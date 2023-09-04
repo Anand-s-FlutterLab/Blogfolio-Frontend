@@ -43,7 +43,7 @@ class SignupScreen extends GetWidget<SignupController> {
                 Container(
                   decoration: AppDecoration.inputBoxDecorationShadow(),
                   child: TextFormField(
-                    controller: controller.firstNameController,
+                    controller: controller.nameController,
                     style: AppStyle.textFormFieldStyle(
                         color: Colors.black.withOpacity(0.6),
                         fontSize: width * 0.05),
@@ -66,18 +66,22 @@ class SignupScreen extends GetWidget<SignupController> {
                 Container(
                   decoration: AppDecoration.inputBoxDecorationShadow(),
                   child: TextFormField(
-                    controller: controller.lastNameController,
+                    controller: controller.mobileController,
                     style: AppStyle.textFormFieldStyle(
                         color: Colors.black.withOpacity(0.6),
                         fontSize: width * 0.05),
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.number,
                     decoration: AppDecoration().textInputDecoration(
-                        hintText: "Enter Last Name",
-                        lableText: "Lastname",
-                        icon: Icons.person),
+                      hintText: "Enter Mobile Number",
+                      lableText: "Mobile Number",
+                      icon: Icons.phone,
+                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please provide a Lastname';
+                        return 'Please provide a Mobile Number';
+                      }
+                      if (value.length != 10) {
+                        return 'Please enter valid Mobile Number';
                       }
                       return null;
                     },
