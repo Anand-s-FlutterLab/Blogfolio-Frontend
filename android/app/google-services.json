@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "515783428985",
+    "project_id": "portfolio-blog-platform",
+    "storage_bucket": "portfolio-blog-platform.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515783428985:android:47880635d8b1dd4e7bfda8",
+        "android_client_info": {
+          "package_name": "com.example.flutter_frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "515783428985-jsn82me3232eg0imioklg6vmsqn5356o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh2ZsnAKGy40tiKXv1hb3SoT5U1e70bYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "515783428985-jsn82me3232eg0imioklg6vmsqn5356o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "515783428985-6a9oltd7q9pqje6eaf7a6s0a5h8rugp4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.promactProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
