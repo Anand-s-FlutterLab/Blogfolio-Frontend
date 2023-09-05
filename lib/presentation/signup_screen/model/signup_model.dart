@@ -1,21 +1,24 @@
 import 'package:flutter_frontend/core/app_export.dart';
 
 class SignUpModel {
-  String firstName;
-  String lastName;
+  String name;
   String emailAddress;
+  String mobile;
+  String profileURL;
 
   SignUpModel({
-    required this.firstName,
-    required this.lastName,
+    required this.name,
     required this.emailAddress,
-  });
+    required this.mobile,
+    String? profileURL,
+  }) : profileURL = profileURL ?? defaultProfileImage;
 
   Map<String, dynamic> toJson() {
     return {
-      "First Name": firstName,
-      "Last Name": lastName,
+      "Name": name,
       "Email Address": emailAddress,
+      "Mobile": mobile,
+      "Profile URL": profileURL,
     };
   }
 }

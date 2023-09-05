@@ -5,8 +5,8 @@ import 'package:flutter_frontend/presentation/signup_screen/model/signup_model.d
 class SignupController extends GetxController {
   final GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
 
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -21,7 +21,7 @@ class SignupController extends GetxController {
             .createUserWithEmailAndPassword(
                 email: emailController.text, password: passwordController.text)
             .then((userCredential) {
-              print(userCredential.user!.uid);
+          print(userCredential.user!.uid);
           userID.value = userCredential.user!.uid;
           userID.refresh();
           addNewUser();
@@ -42,8 +42,8 @@ class SignupController extends GetxController {
   Future<void> addNewUser() async {
     try {
       SignUpModel signUpData = SignUpModel(
-        firstName: firstNameController.text,
-        lastName: lastNameController.text,
+        name: nameController.text,
+        mobile: mobileController.text.toString(),
         emailAddress: emailController.text,
       );
       final DocumentReference productDoc = FirebaseFirestore.instance
