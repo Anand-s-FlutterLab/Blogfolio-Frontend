@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_frontend/core/app_export.dart';
-import 'package:flutter_frontend/core/utils/image_constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
         (status) {
           if (status == AnimationStatus.completed) {
             if (FirebaseAuth.instance.currentUser != null) {
-              Get.offNamed(AppRoutes.homeScreen);
+              Get.offNamed(AppRoutes.portfolioScreen);
             } else {
               Get.offNamed(AppRoutes.loginScreen);
             }
@@ -73,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
               Padding(
                 padding: const EdgeInsets.only(top: 80),
                 child: customText(
-                  text: "Blog App",
+                  text: "Blogfolio",
                   fontSize: width * 0.1,
                   color: primaryColor,
                   fontWeight: FontWeight.bold,

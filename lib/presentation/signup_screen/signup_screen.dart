@@ -126,7 +126,7 @@ class SignupScreen extends GetWidget<SignupController> {
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
                           labelText: "Password",
-                          prefixIcon: const Icon(Icons.lock),
+                          prefixIcon: Icon(Icons.lock, size: width * 0.06),
                           prefixIconColor: primaryColor,
                           suffix: GestureDetector(
                             onTap: () {

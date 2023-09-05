@@ -43,6 +43,19 @@ class AppDecoration {
         ]);
   }
 
+  static BoxDecoration inputBoxDecorationShadowWithBorder() {
+    return BoxDecoration(
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+          )
+        ],
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey.shade400));
+  }
+
+
   InputDecoration textInputDecoration(
       {String lableText = "",
       String hintText = "",
@@ -60,7 +73,7 @@ class AppDecoration {
       fillColor: Colors.white,
       filled: true,
       contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-      prefixIcon: Icon(icon),
+      prefixIcon: Icon(icon, size: width * 0.06),
       prefixIconColor: primaryColor,
       focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),

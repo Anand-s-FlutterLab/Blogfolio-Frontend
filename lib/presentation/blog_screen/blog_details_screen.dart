@@ -1,8 +1,8 @@
 import 'package:flutter_frontend/core/app_export.dart';
-import 'package:flutter_frontend/presentation/home_screen/controller/home_controller.dart';
+import 'package:flutter_frontend/presentation/blog_screen/controller/blog_controller.dart';
 
-class BlogScreen extends GetWidget<HomeController> {
-  const BlogScreen({super.key});
+class BlogDetailsScreen extends GetWidget<BlogController> {
+  const BlogDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

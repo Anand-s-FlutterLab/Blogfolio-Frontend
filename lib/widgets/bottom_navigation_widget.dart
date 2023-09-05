@@ -30,27 +30,43 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: const Icon(
-            Icons.home_outlined,
+            Icons.business_center_outlined,
             color: Colors.grey,
           ),
           activeIcon: Icon(
-            Icons.home,
+            Icons.business_center_rounded,
             color: primaryColor,
           ),
-          label: 'Home',
-          tooltip: "Home",
+          label: 'Portfolio',
+          tooltip: "Portfolio",
+        ),
+        BottomNavigationBarItem(
+          icon: Image(
+            image: AssetImage(blogUnselectedIcon),
+            fit: BoxFit.scaleDown,
+            height: width * 0.06,
+            width: width * 0.06,
+          ),
+          activeIcon: Image(
+            image: AssetImage(blogSelectedIcon),
+            fit: BoxFit.scaleDown,
+            height: width * 0.06,
+            width: width * 0.06,
+          ),
+          label: 'Blog',
+          tooltip: "Blog",
         ),
         BottomNavigationBarItem(
           icon: const Icon(
-            Icons.person_outline,
+            Icons.contact_page_outlined,
             color: Colors.grey,
           ),
           activeIcon: Icon(
-            Icons.person,
+            Icons.contact_page,
             color: primaryColor,
           ),
-          label: 'Profile',
-          tooltip: "Profile",
+          label: 'Contact Form',
+          tooltip: "Contact Form",
         ),
       ],
     );
@@ -67,10 +83,11 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   // This will navigate to respective pages
   void _navigateToScreens(int index) {
     if (index == 0) {
-      Get.offNamed(AppRoutes.homeScreen);
+      Get.offNamed(AppRoutes.portfolioScreen);
     } else if (index == 1) {
-      debugPrint("Navigating to Completed Task");
-      // Navigator.pushNamed(context, "/completedScreen");
+      Get.offNamed(AppRoutes.blogScreen);
+    } else if (index == 2) {
+      Get.offNamed(AppRoutes.contactFormScreen);
     }
   }
 }

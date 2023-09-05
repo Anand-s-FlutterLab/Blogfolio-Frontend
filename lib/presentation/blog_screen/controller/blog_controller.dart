@@ -1,10 +1,27 @@
-import 'package:flutter_frontend/core/app_export.dart';
-import 'package:flutter_frontend/presentation/home_screen/model/home_model.dart';
+import 'dart:io';
 
-class HomeController extends GetxController {
+import 'package:flutter_frontend/core/app_export.dart';
+import 'package:flutter_frontend/presentation/blog_screen/model/home_model.dart';
+
+class BlogController extends GetxController {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
+  TextEditingController readTimeController = TextEditingController();
+
   RxList<Blog> blogList = <Blog>[].obs;
   RxInt currentSelectedBlog = 0.obs;
+  RxBool isAddBlogPressed = false.obs;
 
+  final ImagePicker _picker = ImagePicker();
+  Rx<File?> profileImage = Rx<File?>(null);
+
+  Future<void> openImagePicker() async {
+    // final XFile? pickedImage =
+    // await _picker.pickImage(source: ImageSource.gallery);
+    // if (pickedImage != null) {
+    //   profileImage.value = File(pickedImage.path);
+    // }
+  }
   @override
   void onInit() {
     super.onInit();

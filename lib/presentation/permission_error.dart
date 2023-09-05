@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_frontend/core/app_export.dart';
 
-class ErrorScreen extends StatelessWidget {
-  const ErrorScreen({super.key});
+import '../core/Utils/permission_handler.dart';
+
+class PermissionErrorScreen extends StatelessWidget {
+  const PermissionErrorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class ErrorScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(60.0)),
-                    color: Colors.grey.shade100,
+                    color: Colors.white,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -39,7 +40,7 @@ class ErrorScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "No Internet",
+                            "Permission Denied",
                             style: GoogleFonts.getFont('Signika Negative',
                                 fontSize: Get.width * 0.15, color: Colors.blue),
                           ),
@@ -48,7 +49,7 @@ class ErrorScreen extends StatelessWidget {
                           height: 50,
                         ),
                         Text(
-                          "We apologize, but it seems that you're experiencing a connection issue. Please ensure you have an active internet connection and try again.",
+                          "Sorry, but the user has denied the permission. The requested application cannot be accessed.",
                           textAlign: TextAlign.justify,
                           style: GoogleFonts.getFont('Signika Negative',
                               fontSize: Get.width * 0.07,
@@ -58,8 +59,8 @@ class ErrorScreen extends StatelessWidget {
                           height: 40,
                         ),
                         customImageView(
-                          url: noInternetConnection,
-                          fit: BoxFit.scaleDown, imgHeight: 300, imgWidth: 300,
+                          url: permissionDeniedImage,
+                          fit: BoxFit.scaleDown, imgHeight: height * 0.346, imgWidth: width,
                         ),
                       ],
                     ),
@@ -79,17 +80,13 @@ class ErrorScreen extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       onPressed: () {
-                        if (FirebaseAuth.instance.currentUser != null) {
-                          Get.offNamed(AppRoutes.blogScreen);
-                        } else {
-                          Get.offNamed(AppRoutes.loginScreen);
-                        }
+                        PermissionManager.requestRequiredPermissions();
                       },
                       height: 80,
                       minWidth: Get.width - 50,
                       color: Colors.white,
                       child: const Text(
-                        "Go Back",
+                        "Grant Permission",
                         style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,

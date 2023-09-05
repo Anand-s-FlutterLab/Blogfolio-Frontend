@@ -10,6 +10,7 @@ Widget customImageView({
   double radiusTopRight = 0,
   double radiusBottomLeft = 0,
   double radiusBottomRight = 0,
+  bool isAssetImage = false,
 }) {
   return ClipRRect(
     borderRadius: borderRadius > 0
@@ -20,11 +21,18 @@ Widget customImageView({
             topRight: Radius.circular(radiusTopRight),
             bottomRight: Radius.circular(radiusBottomRight),
           ),
-    child: Image(
-      image: NetworkImage(url),
-      height: imgHeight,
-      width: imgWidth,
-      fit: fit,
-    ),
+    child: isAssetImage
+        ? Image(
+            image: AssetImage(url),
+            height: imgHeight,
+            width: imgWidth,
+            fit: fit,
+          )
+        : Image(
+            image: NetworkImage(url),
+            height: imgHeight,
+            width: imgWidth,
+            fit: fit,
+          ),
   );
 }

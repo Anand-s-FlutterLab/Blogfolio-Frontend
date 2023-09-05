@@ -1,22 +1,35 @@
-import 'package:flutter_frontend/presentation/home_screen/binding/home_binding.dart';
-import 'package:flutter_frontend/presentation/home_screen/blog_screen.dart';
-import 'package:flutter_frontend/presentation/home_screen/home_screen.dart';
+import 'package:flutter_frontend/presentation/blog_screen/add_blog_screen.dart';
+import 'package:flutter_frontend/presentation/blog_screen/binding/home_binding.dart';
+import 'package:flutter_frontend/presentation/blog_screen/blog_details_screen.dart';
+import 'package:flutter_frontend/presentation/blog_screen/blog_screen.dart';
+import 'package:flutter_frontend/presentation/contact_form_screen/binding/contact_form_binding.dart';
+import 'package:flutter_frontend/presentation/contact_form_screen/contact_form_screen.dart';
+import 'package:flutter_frontend/presentation/error_screen.dart';
 import 'package:flutter_frontend/presentation/login_screen/binding/login_binding.dart';
 import 'package:flutter_frontend/presentation/login_screen/login_screen.dart';
+import 'package:flutter_frontend/presentation/permission_error.dart';
+import 'package:flutter_frontend/presentation/portfolio_screen/binding/portfolio_binding.dart';
+import 'package:flutter_frontend/presentation/portfolio_screen/edit_profile_screen.dart';
+import 'package:flutter_frontend/presentation/portfolio_screen/portfolio_screen.dart';
+import 'package:flutter_frontend/presentation/portfolio_screen/profile_screen.dart';
 import 'package:flutter_frontend/presentation/signup_screen/binding/signup_binding.dart';
 import 'package:flutter_frontend/presentation/signup_screen/signup_screen.dart';
 import 'package:flutter_frontend/presentation/splash_screen.dart';
-import 'package:flutter_frontend/presentation/user_profile_screen/binding/user_profile_binding.dart';
-import 'package:flutter_frontend/presentation/user_profile_screen/user_profile_screen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
   static String splashScreen = "/splash_screen";
   static String loginScreen = "/login_screen";
   static String signupScreen = "/signup_screen";
-  static String homeScreen = "/home_screen";
   static String blogScreen = "/blog_screen";
-  static String userProfileScreen = "/user_profile_screen";
+  static String blogDetailsScreen = "/blog_details_screen";
+  static String addBlogScreen = "/add_blog_screen";
+  static String contactFormScreen = "/contact_form_screen";
+  static String portfolioScreen = "/portfolio_screen";
+  static String profileScreen = "/profile_screen";
+  static String editProfileScreen = "/edit_profile_screen";
+  static String errorScreen = "/error_screen";
+  static String permissionErrorScreen = "/permission_error_screen";
 
   static List<GetPage> pages = [
     GetPage(
@@ -28,26 +41,67 @@ class AppRoutes {
       name: loginScreen,
       page: () => const LoginScreen(),
       binding: LoginBindings(),
+      transition: Transition.zoom,
     ),
     GetPage(
       name: signupScreen,
       page: () => const SignupScreen(),
       binding: SignupBindings(),
-    ),
-    GetPage(
-      name: homeScreen,
-      page: () => const HomeScreen(),
-      binding: HomeBindings(),
+      transition: Transition.zoom,
     ),
     GetPage(
       name: blogScreen,
       page: () => const BlogScreen(),
-      binding: HomeBindings(),
+      binding: BlogBindings(),
+      transition: Transition.zoom,
     ),
     GetPage(
-      name: userProfileScreen,
-      page: () => UserProfileScreen(),
-      binding: UserProfileBindings(),
+      name: blogDetailsScreen,
+      page: () => const BlogDetailsScreen(),
+      binding: BlogBindings(),
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: addBlogScreen,
+      page: () => const AddBlogScreen(),
+      binding: BlogBindings(),
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: contactFormScreen,
+      page: () => const ContactFormScreen(),
+      binding: ContactFormBindings(),
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: portfolioScreen,
+      page: () => const PortfolioScreen(),
+      binding: PortfolioBindings(),
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: profileScreen,
+      page: () => const ProfileScreen(),
+      binding: PortfolioBindings(),
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: editProfileScreen,
+      page: () => const EditProfileScreen(),
+      binding: PortfolioBindings(),
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: errorScreen,
+      page: () => const ErrorScreen(),
+      bindings: const [],
+      transition: Transition.zoom,
+    ),
+    GetPage(
+      name: permissionErrorScreen,
+      page: () => const PermissionErrorScreen(),
+      bindings: const [],
+      transition: Transition.zoom,
     ),
   ];
 }

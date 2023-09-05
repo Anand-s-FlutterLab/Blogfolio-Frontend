@@ -25,7 +25,7 @@ class SignupController extends GetxController {
           userID.value = userCredential.user!.uid;
           userID.refresh();
           addNewUser();
-          Get.offAllNamed(AppRoutes.homeScreen);
+          Get.offAllNamed(AppRoutes.blogScreen);
           return userCredential;
         }).catchError(
           (error) {

@@ -10,7 +10,7 @@ class InitialDataLoad extends GetxController {
 
   Future<void> checkUserConfiguration() async {
     if (FirebaseAuth.instance.currentUser != null) {
-      Get.offNamed(AppRoutes.homeScreen);
+      Get.offNamed(AppRoutes.blogScreen);
     } else {
       Get.offNamed(AppRoutes.loginScreen);
     }

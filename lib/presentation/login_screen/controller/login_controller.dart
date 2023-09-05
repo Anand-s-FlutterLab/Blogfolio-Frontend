@@ -20,7 +20,7 @@ class LoginController extends GetxController {
               password: passwordController.text,
             )
             .then(
-              (value) => Get.offAllNamed(AppRoutes.homeScreen),
+              (value) => Get.offAllNamed(AppRoutes.blogScreen),
             );
       } catch (error) {
         handleFirebaseError(error);
