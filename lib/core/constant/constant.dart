@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-
 int selectedBottomNavigationIndex = 0;
 
 String baseUrl = "http://10.1.81.102:1337/api";
@@ -11,3 +9,5 @@ const String collectionContactForm = "Contact Form";
 
 const String storageUserName = "userName";
 const String storageEmail = "email";
+const String storageMobile = "mobile";
+const String storageUserProfileURL = "profileURL";

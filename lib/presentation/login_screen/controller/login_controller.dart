@@ -47,6 +47,8 @@ class LoginController extends GetxController {
         userName.value = loginModel.name;
         await writeStorage(storageUserName, loginModel.name);
         await writeStorage(storageEmail, loginModel.emailAddress);
+        await writeStorage(storageMobile, loginModel.mobile);
+        await writeStorage(storageUserProfileURL, loginModel.profileURL);
         isLogin.value = false;
       } else {
         isLogin.value = false;

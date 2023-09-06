@@ -21,10 +21,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                       decoration: AppDecoration.containerBoxDecoration(
                           borderRadius: 12),
                       child: customImageView(
-                          url: defaultProfileImage,
-                          // url: controller.userProfileModel.profileURL.isEmpty
-                          //     ? defaultProfileImage
-                          //     : controller.userProfileModel.profileURL,
+                          url: controller.portfolioModel.profileImage,
                           imgHeight: 100,
                           imgWidth: 100,
                           fit: BoxFit.scaleDown,
@@ -37,7 +34,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         customText(
-                          text: "Anand Patel",
+                          text: controller.portfolioModel.name,
                           fontSize: width * 0.08,
                           color: primaryColor,
                           fontWeight: FontWeight.bold,
@@ -45,8 +42,8 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                         const SizedBox(
                           height: 5,
                         ),
-                        customText(text: "Email: anand@gmail.com"),
-                        customText(text: "Mobile: 7069144776"),
+                        customText(text: "Email: ${controller.portfolioModel.emailAddress}"),
+                        customText(text: "Mobile: ${controller.portfolioModel.mobile}"),
                       ],
                     )
                   ],
@@ -62,7 +59,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                     physics: const ClampingScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => customText(
-                          text: "Project $index",
+                          text: controller.portfolioModel.projects[index],
                           textAlign: TextAlign.start,
                           fontSize: width * 0.05,
                           color: blackColor,
@@ -72,7 +69,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                         height: 10,
                       );
                     },
-                    itemCount: 3),
+                    itemCount: controller.portfolioModel.projects.length),
                 const SizedBox(
                   height: 20,
                 ),
@@ -83,7 +80,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                 GridView.builder(
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 9,
+                  itemCount: controller.portfolioModel.skills.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 4 / 1,
@@ -103,7 +100,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                         color: blueGreyColor,
                         fontWeight: FontWeight.bold,
                         fontSize: width * 0.058,
-                        text: "Skill $index",
+                        text: controller.portfolioModel.skills[index],
                       ),
                     );
                   },
@@ -120,11 +117,11 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                     color: blackColor,
                     fontSize: width * 0.058,
                     textAlign: TextAlign.start,
-                    text: "Achievement $index",
+                    text: controller.portfolioModel.achievements[index],
                   ),
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 3,
+                  itemCount: controller.portfolioModel.achievements.length,
                   separatorBuilder: (BuildContext context, int index) {
                     return const SizedBox(
                       height: 15,

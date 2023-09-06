@@ -6,29 +6,64 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.getUserProfile();
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: customAppbar(title: "Edit Profile"),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           height: height,
           width: width,
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  decoration:
-                      AppDecoration.containerBoxDecoration(borderRadius: 12),
-                  child: customImageView(
-                      url: defaultProfileImage,
-                      // url: controller.userProfileModel.profileURL.isEmpty
-                      //     ? defaultProfileImage
-                      //     : controller.userProfileModel.profileURL,
-                      imgHeight: height * 0.2,
-                      imgWidth: height * 0.2,
-                      fit: BoxFit.scaleDown,
-                      borderRadius: 12),
+                const SizedBox(
+                  height: 20,
+                ),
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Obx(
+                      () => Container(
+                        height: height * 0.25,
+                        width: width * 0.5,
+                        decoration: AppDecoration.containerBoxDecoration(
+                          borderRadius: 12,
+                        ),
+                        child: controller.profileImage.value != null
+                            ? Image.file(
+                                controller.profileImage.value!,
+                                fit: BoxFit.scaleDown,
+                              )
+                            : customImageView(
+                                url: userProfileURL.value.isEmpty
+                                    ? defaultProfileImage
+                                    : userProfileURL.value,
+                                imgHeight: height * 0.25,
+                                imgWidth: width * 0.5,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
+                    Positioned(
+                      top: -10,
+                      right: -10,
+                      child: GestureDetector(
+                        onTap: () => controller.openImagePicker(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue.withOpacity(0.15),
+                              shape: BoxShape.circle),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(Icons.edit_rounded,
+                                color: Colors.blue.shade800),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: height * 0.05,
@@ -58,7 +93,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                 _buildTextInputField(
                   hintText: "Enter Mobile Number Here",
                   icon: Icons.phone,
-                  controller: controller.mobileController,
+                  controller: controller.mobileController..text = mobile.value,
                   errorMessage: "Please Provide Mobile Number",
                   labelText: "Mobile Number",
                 ),
@@ -81,7 +116,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                     itemBuilder: (context, index) => Dismissible(
                       key: UniqueKey(),
                       onDismissed: (direction) {
-                        controller.portfolio['project]']?.removeAt(index);
+                        controller.portfolio['project']?.removeAt(index);
                       },
                       child: Column(
                         children: [
@@ -93,9 +128,10 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: customText(
-                                color: Colors.pink.shade600,
-                                fontSize: width * 0.05,
-                                text: "Data"),
+                              color: Colors.pink.shade600,
+                              fontSize: width * 0.05,
+                              text: controller.portfolio['project']![index],
+                            ),
                           ),
                           SizedBox(
                             height: height * 0.02,
@@ -137,9 +173,10 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: customText(
-                                color: Colors.orangeAccent.shade700,
-                                fontSize: width * 0.05,
-                                text: "Data"),
+                              color: Colors.orangeAccent.shade700,
+                              fontSize: width * 0.05,
+                              text: controller.portfolio['skill']![index],
+                            ),
                           ),
                           SizedBox(
                             height: height * 0.01,
@@ -147,9 +184,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                         ],
                       ),
                     ),
-                    itemCount: controller.portfolio['skill']!.isNotEmpty
-                        ? controller.portfolio['skill']!.length
-                        : 0,
+                    itemCount: controller.portfolio['skill']!.length,
                   ),
                 ),
                 SizedBox(
@@ -183,9 +218,10 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: customText(
-                                color: Colors.cyan.shade600,
-                                fontSize: width * 0.05,
-                                text: "Data"),
+                              color: Colors.cyan.shade600,
+                              fontSize: width * 0.05,
+                              text: controller.portfolio['achievement']![index],
+                            ),
                           ),
                           SizedBox(
                             height: height * 0.02,
@@ -193,13 +229,11 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                         ],
                       ),
                     ),
-                    itemCount: controller.portfolio['achievement']!.isNotEmpty
-                        ? controller.portfolio['achievement']!.length
-                        : 0,
+                    itemCount: controller.portfolio['achievement']!.length,
                   ),
                 ),
                 GestureDetector(
-                  // onTap: () => controller.onLogin(),
+                  onTap: () => controller.updateUserProfile(),
                   child: Container(
                     width: width,
                     padding: const EdgeInsets.only(bottom: 15, top: 15),
@@ -227,8 +261,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
   }
 }
 
-Widget titleBuilder(
-    {required String title, required VoidCallback addData}) {
+Widget titleBuilder({required String title, required VoidCallback addData}) {
   return Column(
     children: [
       Container(
@@ -283,7 +316,7 @@ Widget _buildTextInputField({
     child: TextFormField(
       readOnly: readOnly,
       style: AppStyle.textFormFieldStyle(fontSize: width * 0.05),
-      keyboardType: TextInputType.text,
+      keyboardType: TextInputType.number,
       decoration: AppDecoration().textInputDecoration(
           lableText: labelText, icon: icon, hintText: labelText),
       controller: controller,

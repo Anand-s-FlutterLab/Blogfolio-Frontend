@@ -12,5 +12,7 @@ class InitialDataLoad extends GetxController {
     userID.value = FirebaseAuth.instance.currentUser!.uid;
     userName.value = await readStorage(storageUserName) ?? "";
     email.value = await readStorage(storageEmail) ?? "";
+    mobile.value = await readStorage(storageMobile) ?? "";
+    userProfileURL.value = await readStorage(storageUserProfileURL) ?? "";
   }
 }

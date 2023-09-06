@@ -48,6 +48,8 @@ class SignupController extends GetxController {
       );
       writeStorage(storageUserName, nameController.text);
       writeStorage(storageEmail, emailController.text);
+      writeStorage(storageMobile, mobileController.text);
+      writeStorage(storageUserProfileURL, defaultProfileImage);
       final DocumentReference productDoc = FirebaseFirestore.instance
           .collection(collectionUsers)
           .doc(userID.value);
