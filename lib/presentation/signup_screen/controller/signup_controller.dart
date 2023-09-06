@@ -46,6 +46,8 @@ class SignupController extends GetxController {
         mobile: mobileController.text.toString(),
         emailAddress: emailController.text,
       );
+      writeStorage(storageUserName, nameController.text);
+      writeStorage(storageEmail, emailController.text);
       final DocumentReference productDoc = FirebaseFirestore.instance
           .collection(collectionUsers)
           .doc(userID.value);

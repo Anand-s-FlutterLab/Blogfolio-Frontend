@@ -1,92 +1,184 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
-
+import 'dart:math';
+import 'package:dio/dio.dart' as dio;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_frontend/core/app_export.dart';
-import 'package:flutter_frontend/presentation/blog_screen/model/home_model.dart';
+import 'package:flutter_frontend/presentation/blog_screen/model/blog_model.dart';
 
 class BlogController extends GetxController {
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   TextEditingController readTimeController = TextEditingController();
 
-  RxList<Blog> blogList = <Blog>[].obs;
+  late BlogModel blogModel;
+  RxString profileURL = "".obs;
   RxInt currentSelectedBlog = 0.obs;
   RxBool isAddBlogPressed = false.obs;
+  RxBool initialLoad = false.obs;
 
   final ImagePicker _picker = ImagePicker();
   Rx<File?> profileImage = Rx<File?>(null);
 
-  Future<void> openImagePicker() async {
-    // final XFile? pickedImage =
-    // await _picker.pickImage(source: ImageSource.gallery);
-    // if (pickedImage != null) {
-    //   profileImage.value = File(pickedImage.path);
-    // }
-  }
   @override
-  void onInit() {
-    super.onInit();
-    addBlog();
+  void onReady() {
+    super.onReady();
+    getBlogs();
   }
 
-  void addBlog() {
-    blogList.add(Blog.fromJson({
-      "id": 1,
-      "title": "Travel Adventures Travel Adventures Travel Adventures",
-      "content": """
-      My name is Scott Chow, and I am going to show you how to start blogging today. I have been building blogs and websites since 2002. In that time I have launched several of my own blogs, and helped hundreds of others do the same.
+  @override
+  void dispose() {
+    super.dispose();
+    titleController.dispose();
+    contentController.dispose();
+    readTimeController.dispose();
+  }
 
-I know that starting a blog can seem overwhelming and intimidating. This free guide is all about blogging for beginners, and will teach you how to become a blogger with just the most basic computer skills. So whether you’re 8 or 88, you can create your own blog in 20 minutes.
+  Future<void> getBlogs() async {
+    try {
+      initialLoad.value = true;
+      dio.Response responce = await dio.Dio().get(
+        "$baseUrl/blogs",
+        options: dio.Options(
+          headers: {"Authorization": token},
+        ),
+      );
+      blogModel = BlogModel.fromJson(responce.data);
+    } catch (e) {
+      print(e);
+    } finally {
+      initialLoad.value = false;
+    }
+  }
 
-I am not ashamed to admit that when I was first learning how to build a blog I made a ton of mistakes. You can benefit from more than a decade of my experience so that you don’t repeat these same mistakes when you make your own blog. I created this free guide so that a complete beginner can learn how to blog quickly and easily.
+  Future<void> addBlogs() async {
+    try {
+      isAddBlogPressed.value = true;
 
-So, just how do you start a blog?
+      if (profileImage.value != null) {
+        profileURL.value = await uploadImage();
+      }
 
-Learn how to create a blog in about 20 minutes following these steps:
-      """,
-      "author": "user1",
-      "publicationDate": "2023-08-15",
-      "lastUpdatedDate": "2023-08-15",
-      "tags": ["Travel", "Adventure"],
-      "imageUrl": "https://example.com/image1.jpg",
-      "views": 1000,
-      "likes": 500,
-      "comments": [
-        {"user": "commenter1", "text": "Great post!"},
-        {"user": "commenter2", "text": "I wish I could travel like that."},
-      ],
-      "status": "published",
-      "urlSlug": "travel-adventures",
-      "featured": true,
-    }));
-    blogList.add(Blog.fromJson(
-      {
-        "id": 2,
-        "title": "Healthy Living",
-        "content": "Tips for a balanced and active lifestyle. "
-            "Living a healthy life involves making choices that "
-            "benefit your physical, mental, and emotional well-being. "
-            "In this blog post, we'll explore various aspects of "
-            "health and lifestyle, from maintaining a nutritious diet "
-            "to engaging in regular exercise routines. We'll also delve "
-            "into the importance of mental health and stress management, "
-            "providing you with practical advice on how to lead a healthier "
-            "and more fulfilling life. Join us on this journey towards "
-            "a happier and more vibrant you!",
-        "author": "user2",
-        "publicationDate": "2023-08-20",
-        "lastUpdatedDate": "2023-08-20",
-        "tags": ["Health", "Lifestyle"],
-        "imageUrl": "https://example.com/image2.jpg",
-        "views": 800,
-        "likes": 600,
-        "comments": [
-          {"user": "commenter3", "text": "These tips are really helpful!"},
-          {"user": "commenter4", "text": "I've started following your advice."},
-        ],
-        "status": "published",
-        "urlSlug": "healthy-living",
-        "featured": true,
-      },
-    ));
+      dio.Response responce = await dio.Dio().post(
+        "$baseUrl/blogs",
+        data: {
+          "data": {
+            "title": titleController.text,
+            "content": contentController.text,
+            "author": userName.value,
+            "imageUrl": profileURL,
+            "authorID": userID.value,
+            "readMin": readTimeController.text,
+            "userProfileUrl": defaultProfileImage
+          }
+        },
+        options: dio.Options(
+          headers: {"Authorization": token},
+        ),
+      );
+      customSnackBar("Success", "Blog Added", "green");
+    } catch (e) {
+      print(e);
+    } finally {
+      isAddBlogPressed.value = false;
+      titleController.clear();
+      contentController.clear();
+      readTimeController.clear();
+      profileURL.value = "";
+    }
+  }
+
+  Future<void> editBlog(int id) async {
+    try {
+      isAddBlogPressed.value = true;
+
+      if (profileImage.value != null) {
+        profileURL.value = await uploadImage();
+      }
+      dio.Response responce = await dio.Dio().put(
+        "$baseUrl/blogs/$id",
+        data: {
+          "data": {
+            "title": titleController.text,
+            "content": contentController.text,
+            "imageUrl": profileURL.value,
+            "readMin": readTimeController.text,
+            "userProfileUrl": defaultProfileImage
+          }
+        },
+        options: dio.Options(
+          headers: {"Authorization": token},
+        ),
+      );
+      Get.back();
+      customSnackBar("Success", "Blog Edited Successfully", "green");
+      getBlogs();
+    } catch (e) {
+      print(e);
+    } finally {
+      isAddBlogPressed.value = false;
+      titleController.clear();
+      contentController.clear();
+      readTimeController.clear();
+      profileURL.value = "";
+    }
+  }
+
+  Future<void> deleteBlog(int id) async {
+    try {
+      dio.Response responce = await dio.Dio().delete(
+        "$baseUrl/blogs/$id",
+        options: dio.Options(
+          headers: {"Authorization": token},
+        ),
+      );
+      customSnackBar("Success", "Blog Deleted Successfully", "green");
+      getBlogs();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> openImagePicker() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      profileImage.value = File(pickedImage.path);
+    }
+  }
+
+  Future<String> uploadImage() async {
+    try {
+      final FirebaseStorage storage = FirebaseStorage.instance;
+      final File? image = profileImage.value;
+      var random = Random.secure();
+      var values = List<int>.generate(20, (i) => random.nextInt(255));
+      String imageName = base64UrlEncode(values);
+
+      final String imagePath =
+          '$collectionUsers/${userID.value}/$imageName.jpg';
+
+      UploadTask uploadTask = storage.ref().child(imagePath).putFile(image!);
+
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+
+      final String imageUrl = await taskSnapshot.ref.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  void onEdit() {
+    titleController.text =
+        blogModel.data[currentSelectedBlog.value].attributes.title;
+    contentController.text =
+        blogModel.data[currentSelectedBlog.value].attributes.content;
+    readTimeController.text =
+        blogModel.data[currentSelectedBlog.value].attributes.readMin.toString();
+    profileURL.value =
+        blogModel.data[currentSelectedBlog.value].attributes.imageUrl;
   }
 }

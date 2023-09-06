@@ -31,9 +31,10 @@ class AppDecoration {
 
   static BoxDecoration containerBoxDecoration({
     double borderRadius = 12,
+    Color color = Colors.white
 }) {
     return BoxDecoration(
-        color: Colors.white,
+        color: color,
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: const [
           BoxShadow(

@@ -7,6 +7,7 @@ class ContactFormScreen extends GetWidget<ContactFormController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       body: Container(
         padding: const EdgeInsets.all(20),
         height: height,
@@ -45,7 +46,7 @@ class ContactFormScreen extends GetWidget<ContactFormController> {
                       fontSize: width * 0.05),
                   keyboardType: TextInputType.text,
                   decoration: AppDecoration().textInputDecoration(
-                      hintText: "Enter Username Here",
+                      hintText: "Enter Candidate Username",
                       lableText: "Username",
                       icon: Icons.person),
                   validator: (value) {
@@ -109,7 +110,7 @@ class ContactFormScreen extends GetWidget<ContactFormController> {
                 height: height * 0.05,
               ),
               GestureDetector(
-                // onTap: () => controller.onLogin(),
+                onTap: () => controller.addContactForm(),
                 child: Container(
                   width: width,
                   padding: const EdgeInsets.only(bottom: 15, top: 15),

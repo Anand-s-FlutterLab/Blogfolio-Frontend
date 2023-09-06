@@ -10,10 +10,8 @@ class BlogScreen extends GetWidget<BlogController> {
       backgroundColor: whiteColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SizedBox(
-            height: height,
-            width: width,
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -26,12 +24,19 @@ class BlogScreen extends GetWidget<BlogController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        customText(
-                          text: "Welcome Anand",
-                          fontSize: width * 0.07,
-                          fontWeight: FontWeight.bold,
-                          color: blueGreyColor,
-                          textAlign: TextAlign.start,
+                        SizedBox(
+                          width: width - (width * 0.22),
+                          child: FittedBox(
+                            alignment: Alignment.centerLeft,
+                            fit: BoxFit.scaleDown,
+                            child: customText(
+                              text: "Welcome ${userName.value}",
+                              fontSize: width * 0.07,
+                              fontWeight: FontWeight.bold,
+                              color: blueGreyColor,
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
                         ),
                         customText(
                           text: "Time to explore Blogfolio",
@@ -59,78 +64,148 @@ class BlogScreen extends GetWidget<BlogController> {
                 SizedBox(
                   height: height * 0.02,
                 ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        controller.currentSelectedBlog.value = index;
-                        Get.toNamed(AppRoutes.blogDetailsScreen);
-                      },
-                      child: Container(
-                        decoration: AppDecoration.containerBoxDecoration(),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                bottomLeft: Radius.circular(12),
-                              ),
-                              child: Image(
-                                image: const NetworkImage(
-                                  "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-                                ),
-                                height: height * 0.1730,
-                                width: width * 0.2919,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Container(
-                              height: height * 0.1730,
-                              width: width * 0.7081 - 40,
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                Obx(
+                      () => controller.initialLoad.value
+                      ? customLoadingAnimation(size: height * 0.2)
+                      : SizedBox(
+                    height: height - (height * 0.225),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.only(bottom: 10),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            controller.currentSelectedBlog.value = index;
+                            Get.toNamed(AppRoutes.blogDetailsScreen);
+                          },
+                          child: Container(
+                              decoration:
+                              AppDecoration.containerBoxDecoration(),
+                              child: Stack(
                                 children: [
-                                  SizedBox(
-                                    height: height * 0.002,
+                                  Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                        const BorderRadius.only(
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        child: customImageView(
+                                          url: controller
+                                              .blogModel
+                                              .data[index]
+                                              .attributes
+                                              .imageUrl,
+                                          imgHeight: height * 0.1730,
+                                          imgWidth: width * 0.2919,
+                                        ),
+                                      ),
+                                      Container(
+                                        height: height * 0.1730,
+                                        width: width * 0.7081 - 40,
+                                        padding:
+                                        const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: height * 0.002,
+                                            ),
+                                            customText(
+                                              fontSize: width * 0.06,
+                                              text: controller
+                                                  .blogModel
+                                                  .data[index]
+                                                  .attributes
+                                                  .title,
+                                              color: primaryColor,
+                                              maxLines: 2,
+                                              textAlign: TextAlign.start,
+                                            ),
+                                            SizedBox(
+                                              height: height * 0.005,
+                                            ),
+                                            customText(
+                                              text: controller
+                                                  .blogModel
+                                                  .data[index]
+                                                  .attributes
+                                                  .author,
+                                              color: greyColor,
+                                            ),
+                                            const Spacer(),
+                                            Align(
+                                              alignment:
+                                              Alignment.centerRight,
+                                              child: customText(
+                                                  text:
+                                                  "Last Updated: ${controller.blogModel.data[index].attributes.updatedAt}",
+                                                  color: greyColor,
+                                                  fontSize:
+                                                  width * 0.035),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  customText(
-                                    fontSize: width * 0.06,
-                                    text: controller.blogList[index].title,
-                                    color: primaryColor,
-                                    maxLines: 2,
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.005,
-                                  ),
-                                  customText(
-                                    text: controller.blogList[index].author,
-                                    color: greyColor,
-                                  ),
-                                  const Spacer(),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: customText(
-                                        text:
-                                            "Last Updated: ${controller.blogList[index].lastUpdatedDate}",
-                                        color: greyColor,
-                                        fontSize: width * 0.035),
-                                  )
+                                  if (userID.value ==
+                                      controller.blogModel.data[index]
+                                          .attributes.authorId)
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: Column(
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              controller
+                                                  .currentSelectedBlog
+                                                  .value = index;
+                                              controller.onEdit();
+                                              Get.toNamed(
+                                                  AppRoutes.addBlogScreen,
+                                                  arguments: [
+                                                    controller
+                                                        .blogModel
+                                                        .data[controller
+                                                        .currentSelectedBlog
+                                                        .value]
+                                                        .id,
+                                                    "True"
+                                                  ]);
+                                            },
+                                            icon: const Icon(Icons.edit),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              controller.deleteBlog(
+                                                  controller.blogModel
+                                                      .data[index].id);
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                 ],
-                              ),
-                            )
-                          ],
-                        ),
+                              )),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: height * 0.02,
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: height * 0.023,
+                      itemCount: controller.blogModel.data.length,
+                    ),
                   ),
-                  itemCount: 2,
                 ),
               ],
             ),

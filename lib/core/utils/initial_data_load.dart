@@ -3,16 +3,14 @@ import 'package:flutter_frontend/core/app_export.dart';
 
 class InitialDataLoad extends GetxController {
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    checkUserConfiguration();
+    await initializeApp();
   }
 
-  Future<void> checkUserConfiguration() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      Get.offNamed(AppRoutes.blogScreen);
-    } else {
-      Get.offNamed(AppRoutes.loginScreen);
-    }
+  Future<void> initializeApp() async {
+    userID.value = FirebaseAuth.instance.currentUser!.uid;
+    userName.value = await readStorage(storageUserName) ?? "";
+    email.value = await readStorage(storageEmail) ?? "";
   }
 }

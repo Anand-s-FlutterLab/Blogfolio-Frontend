@@ -28,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
         (status) {
           if (status == AnimationStatus.completed) {
             if (FirebaseAuth.instance.currentUser != null) {
+              userID.value = FirebaseAuth.instance.currentUser!.uid;
               Get.offNamed(AppRoutes.portfolioScreen);
             } else {
               Get.offNamed(AppRoutes.loginScreen);

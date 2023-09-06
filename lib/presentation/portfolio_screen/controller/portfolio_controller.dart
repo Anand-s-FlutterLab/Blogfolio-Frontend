@@ -2,27 +2,21 @@ import 'package:flutter_frontend/core/app_export.dart';
 
 class PortfolioController extends GetxController {
   TextEditingController mobileController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   RxBool isEditProfilePressed = false.obs;
-  RxList<TextEditingController> projectControllers =
-      <TextEditingController>[].obs;
-  RxList<TextEditingController> skillControllers =
-      <TextEditingController>[].obs;
-  RxList<TextEditingController> achievementControllers =
-      <TextEditingController>[].obs;
+  RxMap<String, RxList<String>> portfolio = <String, RxList<String>>{
+    "project": <String>[].obs,
+    "skill": <String>[].obs,
+    "achievement": <String>[].obs,
+  }.obs;
 
-  void addProjectController() {
-    TextEditingController projectController = TextEditingController();
-    projectControllers.add(projectController);
-  }
-
-  void addSkillController() {
-    TextEditingController skillController = TextEditingController();
-    skillControllers.add(skillController);
-  }
-
-  void addAchievementController() {
-    TextEditingController achievementController = TextEditingController();
-    achievementControllers.add(achievementController);
+  void addData(String key, String data) {
+    if (portfolio.containsKey(key)) {
+      portfolio[key]?.add(data);
+    } else {
+      portfolio[key] = [data].obs;
+    }
   }
 }

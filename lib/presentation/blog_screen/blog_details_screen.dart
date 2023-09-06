@@ -32,8 +32,7 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
               background: SizedBox(
                 height: height * 0.5,
                 child: customImageView(
-                  url:
-                      "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+                  url: controller.blogModel.data[index].attributes.imageUrl,
                   imgHeight: height * 0.5,
                   imgWidth: width,
                   borderRadius: 0,
@@ -51,7 +50,8 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
                   Row(
                     children: [
                       customText(
-                        text: "${controller.blogList[index].lastUpdatedDate}・3 min read",
+                        text:
+                            "${controller.blogModel.data[index].attributes.updatedAt}・3 min read",
                         textAlign: TextAlign.start,
                         color: blackColor,
                         fontSize: width * 0.04,
@@ -60,7 +60,7 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
                     ],
                   ),
                   customText(
-                    text: controller.blogList[index].title,
+                    text: controller.blogModel.data[index].attributes.title,
                     textAlign: TextAlign.start,
                     color: primaryColor,
                     fontSize: width * 0.07,
@@ -83,9 +83,12 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
                           borderRadius: 40,
                         ),
                       ),
-                      const SizedBox(width: 15,),
+                      const SizedBox(
+                        width: 15,
+                      ),
                       customText(
-                        text: controller.blogList[index].author,
+                        text:
+                            controller.blogModel.data[index].attributes.author,
                         textAlign: TextAlign.start,
                         color: greyColor,
                         fontSize: width * 0.055,
@@ -97,7 +100,7 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
                     height: 30,
                   ),
                   Text(
-                    controller.blogList[index].content,
+                    controller.blogModel.data[index].attributes.content,
                     style: GoogleFonts.signikaNegative(
                       fontSize: width * 0.05,
                       fontWeight: FontWeight.w500,

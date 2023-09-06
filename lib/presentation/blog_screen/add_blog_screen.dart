@@ -8,7 +8,7 @@ class AddBlogScreen extends GetWidget<BlogController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
-      appBar: customAppbar(title: "Add New Blog"),
+      appBar: customAppbar(title: "Blog"),
       body: Container(
         padding: const EdgeInsets.all(20),
         height: height,
@@ -53,7 +53,7 @@ class AddBlogScreen extends GetWidget<BlogController> {
                 height: height * 0.03,
               ),
               _buildTextInputField(
-                labelText: "Title",
+                labelText: "Content",
                 controller: controller.contentController,
                 icon: Icons.article_outlined,
                 hintText: "Enter Content Here",
@@ -74,19 +74,26 @@ class AddBlogScreen extends GetWidget<BlogController> {
                 height: height * 0.04,
               ),
               GestureDetector(
-                // onTap: () => controller.onLogin(),
+                onTap: () {
+                  final data = Get.arguments;
+                  if (data[1] == "True") {
+                    controller.editBlog(data[0]);
+                  } else {
+                    controller.addBlogs();
+                  }
+                },
                 child: Container(
                   width: width,
                   padding: const EdgeInsets.only(bottom: 15, top: 15),
                   decoration: AppDecoration.buttonBoxDecoration(),
                   child: Obx(
-                        () => controller.isAddBlogPressed.value
+                    () => controller.isAddBlogPressed.value
                         ? customLoadingAnimation(size: width * 0.1)
                         : customText(
-                      text: "Submit",
-                      color: Colors.white,
-                      fontSize: width * 0.06,
-                    ),
+                            text: "Submit",
+                            color: Colors.white,
+                            fontSize: width * 0.06,
+                          ),
                   ),
                 ),
               ),
@@ -102,29 +109,36 @@ class AddBlogScreen extends GetWidget<BlogController> {
       width: width * 0.5,
       height: height * 0.25,
       child: Obx(
-        () => Container(
-          decoration: AppDecoration.inputBoxDecorationShadowWithBorder(),
+        () => GestureDetector(
+          onTap: () {
+            controller.openImagePicker();
+          },
           child: Container(
-            padding: const EdgeInsets.all(5),
-            alignment: Alignment.center,
-            width: height * 0.2,
-            height: height * 0.25,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
+            decoration: AppDecoration.inputBoxDecorationShadowWithBorder(),
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              alignment: Alignment.center,
+              width: height * 0.2,
+              height: height * 0.25,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: controller.profileImage.value != null
+                  ? Image.file(controller.profileImage.value!,
+                      fit: BoxFit.cover)
+                  : customImageView(
+                      // url: controller.editProfileModel.profileUrl.isEmpty
+                      //     ? defaultProfileImage
+                      //     : controller.editProfileModel.profileUrl,
+                      url: controller.profileURL.value.isEmpty
+                          ? defaultProfileImage
+                          : controller.profileURL.value,
+                      imgHeight: height * 0.25,
+                      imgWidth: width * 0.5,
+                      fit: BoxFit.cover,
+                    ),
             ),
-            child: controller.profileImage.value != null
-                ? Image.file(controller.profileImage.value!, fit: BoxFit.cover)
-                : customImageView(
-                    // url: controller.editProfileModel.profileUrl.isEmpty
-                    //     ? defaultProfileImage
-                    //     : controller.editProfileModel.profileUrl,
-                    url:
-                        "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-                    imgHeight: height * 0.25,
-                    imgWidth: width * 0.5,
-                    fit: BoxFit.cover,
-                  ),
           ),
         ),
       ),
