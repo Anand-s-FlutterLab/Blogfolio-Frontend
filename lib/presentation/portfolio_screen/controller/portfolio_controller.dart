@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_frontend/core/app_export.dart';
 import 'package:flutter_frontend/presentation/portfolio_screen/model/portfolio_model.dart';
@@ -8,6 +8,7 @@ class PortfolioController extends GetxController {
   TextEditingController mobileController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController addDataController = TextEditingController();
 
   late PortfolioModel portfolioModel;
   RxBool isEditProfilePressed = false.obs;
@@ -24,12 +25,23 @@ class PortfolioController extends GetxController {
   final Stream<QuerySnapshot> portfolios =
       FirebaseFirestore.instance.collection(collectionUsers).snapshots();
 
+  @override
+  void dispose() {
+    super.dispose();
+    mobileController.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    addDataController.dispose();
+    profileImage.close();
+  }
+
   void addData(String key, String data) {
     if (portfolio.containsKey(key)) {
       portfolio[key]?.add(data);
     } else {
       portfolio[key] = [data].obs;
     }
+    addDataController.clear();
   }
 
   Future<void> getUserProfile() async {
@@ -39,17 +51,20 @@ class PortfolioController extends GetxController {
           .doc(userID.value)
           .get();
       final data = snapshot.data() as Map<String, dynamic>;
-      userName.value = data["name"];
-      email.value = data["emailAddress"];
-      mobile.value = data["mobile"];
-      userProfileURL.value = data["profileImage"].toString().isEmpty
+      userName.value = data["Name"];
+      email.value = data["Email Address"];
+      mobile.value = data["Mobile"];
+      userProfileURL.value = data["Profile URL"].toString().isEmpty
           ? defaultProfileImage
-          : data["profileImage"];
-      portfolio['project']?.value = data['projects'].cast<String>();
-      portfolio['skill']?.value = data['skills'].cast<String>();
-      portfolio['achievement']?.value = data['achievements'].cast<String>();
+          : data["Profile URL"];
+      portfolio['project']?.value =
+          data["Projects"] == null ? [] : data['Projects'].cast<String>();
+      portfolio['skill']?.value =
+          data["Skills"] == null ? [] : data['Skills'].cast<String>();
+      portfolio['achievement']?.value = data["Achievements"] == null
+          ? []
+          : data['Achievements'].cast<String>();
     } catch (error) {
-      print(error);
       handleFirebaseError(error);
     }
   }
@@ -110,6 +125,16 @@ class PortfolioController extends GetxController {
     } catch (e) {
       print(e);
       return "";
+    }
+  }
+
+  Future<void> onLogout() async {
+    try {
+      FirebaseAuth.instance.signOut();
+      selectedBottomNavigationIndex = 0;
+      Get.offAllNamed(AppRoutes.loginScreen);
+    } catch (error) {
+      handleFirebaseError(error);
     }
   }
 }

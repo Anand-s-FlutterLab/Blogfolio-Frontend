@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-PortfolioModel portfolioModelFromJson(String str) => PortfolioModel.fromJson(json.decode(str));
+PortfolioModel portfolioModelFromJson(String str) =>
+    PortfolioModel.fromJson(json.decode(str));
 
 String portfolioModelToJson(PortfolioModel data) => json.encode(data.toJson());
 
@@ -23,23 +24,25 @@ class PortfolioModel {
     required this.skills,
   });
 
-  factory PortfolioModel.fromJson(Map<String, dynamic> json) => PortfolioModel(
-    name: json["name"],
-    emailAddress: json["emailAddress"],
-    mobile: json["mobile"],
-    profileImage: json["profileImage"],
-    achievements: List<String>.from(json["achievements"].map((x) => x)),
-    projects: List<String>.from(json["projects"].map((x) => x)),
-    skills: List<String>.from(json["skills"].map((x) => x)),
-  );
+  factory PortfolioModel.fromJson(Map<String, dynamic> json) {
+    return PortfolioModel(
+      name: json["Name"],
+      emailAddress: json["Email Address"],
+      mobile: json["Mobile"],
+      profileImage: json["Profile URL"],
+      achievements: List<String>.from(json["Achievements"].map((x) => x)),
+      projects: List<String>.from(json["Projects"].map((x) => x)),
+      skills: List<String>.from(json["Skills"].map((x) => x)),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "emailAddress": emailAddress,
-    "mobile": mobile,
-    "profileImage": profileImage,
-    "achievements": List<dynamic>.from(achievements.map((x) => x)),
-    "projects": List<dynamic>.from(projects.map((x) => x)),
-    "skills": List<dynamic>.from(skills.map((x) => x)),
-  };
+        "Name": name,
+        "Email Address": emailAddress,
+        "Mobile": mobile,
+        "Profile URL": profileImage,
+        "Achievements": List<dynamic>.from(achievements.map((x) => x)),
+        "Projects": List<dynamic>.from(projects.map((x) => x)),
+        "Skills": List<dynamic>.from(skills.map((x) => x)),
+      };
 }

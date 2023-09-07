@@ -13,6 +13,14 @@ class SignupController extends GetxController {
   RxBool obscureText = true.obs;
   RxBool isSignup = false.obs;
 
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    mobileController.dispose();
+    passwordController.dispose();
+  }
+
   Future<void> onSignup() async {
     isSignup.value = true;
     if (signupFormKey.currentState!.validate()) {
@@ -25,7 +33,7 @@ class SignupController extends GetxController {
           userID.value = userCredential.user!.uid;
           userID.refresh();
           addNewUser();
-          Get.offAllNamed(AppRoutes.blogScreen);
+          Get.offAllNamed(AppRoutes.portfolioScreen);
           return userCredential;
         }).catchError(
           (error) {

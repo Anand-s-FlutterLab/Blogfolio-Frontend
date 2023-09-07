@@ -10,12 +10,12 @@ class BlogModel {
   });
 
   factory BlogModel.fromJson(Map<String, dynamic> json) => BlogModel(
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-  );
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
 class Datum {
@@ -28,14 +28,14 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    attributes: Attributes.fromJson(json["attributes"]),
-  );
+        id: json["id"],
+        attributes: Attributes.fromJson(json["attributes"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "attributes": attributes.toJson(),
-  };
+        "id": id,
+        "attributes": attributes.toJson(),
+      };
 }
 
 class Attributes {
@@ -45,7 +45,6 @@ class Attributes {
   String imageUrl;
   String authorId;
   int readMin;
-  String userProfileUrl;
   DateTime createdAt;
   DateTime updatedAt;
   DateTime publishedAt;
@@ -57,37 +56,32 @@ class Attributes {
     required this.imageUrl,
     required this.authorId,
     required this.readMin,
-    required this.userProfileUrl,
     required this.createdAt,
     required this.updatedAt,
     required this.publishedAt,
   });
 
   factory Attributes.fromJson(Map<String, dynamic> json) => Attributes(
-    title: json["title"],
-    content: json["content"],
-    author: json["author"],
-    imageUrl: json["imageUrl"],
-    authorId: json["authorID"],
-    readMin: json["readMin"],
-    userProfileUrl: json["userProfileUrl"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    publishedAt: DateTime.parse(json["publishedAt"]),
-  );
+        title: json["title"],
+        content: json["content"],
+        author: json["author"],
+        imageUrl: json["imageUrl"],
+        authorId: json["authorID"],
+        readMin: json["readMin"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        publishedAt: DateTime.parse(json["publishedAt"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "title": title,
-    "content": content,
-    "author": author,
-    "imageUrl": imageUrl,
-    "authorID": authorId,
-    "readMin": readMin,
-    "userProfileUrl": userProfileUrl,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "publishedAt": publishedAt.toIso8601String(),
-  };
-
-
+        "title": title,
+        "content": content,
+        "author": author,
+        "imageUrl": imageUrl,
+        "authorID": authorId,
+        "readMin": readMin,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "publishedAt": publishedAt.toIso8601String(),
+      };
 }

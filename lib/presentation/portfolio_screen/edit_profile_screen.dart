@@ -103,7 +103,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                 titleBuilder(
                   title: "Projects",
                   addData: () {
-                    controller.addData("project", "temp");
+                    customBottomSheet(label: "project");
                   },
                 ),
                 SizedBox(
@@ -148,7 +148,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                 titleBuilder(
                   title: "Skills",
                   addData: () {
-                    controller.addData("skill", "temp");
+                    customBottomSheet(label: "skill");
                   },
                 ),
                 SizedBox(
@@ -193,7 +193,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                 titleBuilder(
                   title: "Achievements",
                   addData: () {
-                    controller.addData("achievement", "temp");
+                    customBottomSheet(label: "achievement");
                   },
                 ),
                 SizedBox(
@@ -259,6 +259,62 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
       ),
     );
   }
+
+  Future customBottomSheet({required String label}) {
+    return Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(20),
+        height: 200,
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(40),
+            topLeft: Radius.circular(40),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 80,
+              spreadRadius: 5
+            )
+          ]
+        ),
+        child: Column(
+          children: [
+            _buildTextInputField(
+              errorMessage: "Please enter $label",
+              hintText: "Enter $label Here",
+              icon: Icons.data_saver_on_outlined,
+              controller: controller.addDataController,
+              labelText: label,
+              textInputType: TextInputType.text
+            ),
+            SizedBox(
+              height: height * 0.03,
+            ),
+            GestureDetector(
+              onTap: () {
+                controller.addData(label, controller.addDataController.text);
+                Get.back();
+              },
+              child: Container(
+                width: width,
+                padding: const EdgeInsets.only(bottom: 15, top: 15),
+                decoration: AppDecoration.buttonBoxDecoration(),
+                child: customText(
+                  text: "Submit",
+                  color: Colors.white,
+                  fontSize: width * 0.06,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      barrierColor: Colors.transparent,
+      enableDrag: true,
+    );
+  }
 }
 
 Widget titleBuilder({required String title, required VoidCallback addData}) {
@@ -309,6 +365,7 @@ Widget _buildTextInputField({
   required String errorMessage,
   required IconData icon,
   bool readOnly = false,
+  TextInputType textInputType = TextInputType.number
 }) {
   return Container(
     width: width == 50 ? Get.width - 75 : width,
@@ -316,7 +373,7 @@ Widget _buildTextInputField({
     child: TextFormField(
       readOnly: readOnly,
       style: AppStyle.textFormFieldStyle(fontSize: width * 0.05),
-      keyboardType: TextInputType.number,
+      keyboardType: textInputType,
       decoration: AppDecoration().textInputDecoration(
           lableText: labelText, icon: icon, hintText: labelText),
       controller: controller,

@@ -47,11 +47,18 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  customText(
+                    text: controller.blogModel.data[index].attributes.title,
+                    textAlign: TextAlign.start,
+                    color: primaryColor,
+                    fontSize: width * 0.07,
+                    maxLines: 3,
+                  ),
                   Row(
                     children: [
                       customText(
                         text:
-                            "${controller.blogModel.data[index].attributes.updatedAt}・3 min read",
+                            "${controller.blogModel.data[index].attributes.updatedAt.toString().substring(0, 10)}・${controller.blogModel.data[index].attributes.readMin} min read",
                         textAlign: TextAlign.start,
                         color: blackColor,
                         fontSize: width * 0.04,
@@ -60,44 +67,15 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
                     ],
                   ),
                   customText(
-                    text: controller.blogModel.data[index].attributes.title,
+                    text:
+                        "Written by: ${controller.blogModel.data[index].attributes.author}",
                     textAlign: TextAlign.start,
-                    color: primaryColor,
-                    fontSize: width * 0.07,
+                    color: greyColor,
+                    fontSize: width * 0.04,
                     maxLines: 3,
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: AppDecoration.containerBoxDecoration(
-                            borderRadius: 40),
-                        child: customImageView(
-                          url:
-                              "https://static.vecteezy.com/system/resources/thumbnails/011/490/381/small/happy-smiling-young-man-avatar-3d-portrait-of-a-man-cartoon-character-people-illustration-isolated-on-white-background-vector.jpg",
-                          imgHeight: 40,
-                          imgWidth: 40,
-                          borderRadius: 40,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      customText(
-                        text:
-                            controller.blogModel.data[index].attributes.author,
-                        textAlign: TextAlign.start,
-                        color: greyColor,
-                        fontSize: width * 0.055,
-                        maxLines: 3,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    height: height * 0.034,
                   ),
                   Text(
                     controller.blogModel.data[index].attributes.content,

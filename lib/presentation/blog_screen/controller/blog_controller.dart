@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:dio/dio.dart' as dio;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_frontend/core/app_export.dart';
+import 'package:flutter_frontend/core/network/dio_exception.dart';
 import 'package:flutter_frontend/presentation/blog_screen/model/blog_model.dart';
 
 class BlogController extends GetxController {
@@ -13,6 +14,7 @@ class BlogController extends GetxController {
   TextEditingController readTimeController = TextEditingController();
 
   late BlogModel blogModel;
+  RxString errorText = "".obs;
   RxString profileURL = "".obs;
   RxInt currentSelectedBlog = 0.obs;
   RxBool isAddBlogPressed = false.obs;
@@ -22,31 +24,36 @@ class BlogController extends GetxController {
   Rx<File?> profileImage = Rx<File?>(null);
 
   @override
-  void onReady() {
-    super.onReady();
-    getBlogs();
-  }
-
-  @override
   void dispose() {
     super.dispose();
     titleController.dispose();
     contentController.dispose();
     readTimeController.dispose();
+    profileImage.close();
   }
 
   Future<void> getBlogs() async {
     try {
       initialLoad.value = true;
-      dio.Response responce = await dio.Dio().get(
-        "$baseUrl/blogs",
-        options: dio.Options(
-          headers: {"Authorization": token},
-        ),
-      );
-      blogModel = BlogModel.fromJson(responce.data);
+      errorText.value = "";
+      dio.Response response = await dio.Dio()
+          .get(
+            "$baseUrl/blogs",
+            options: dio.Options(
+              headers: {"Authorization": token},
+            ),
+          )
+          .timeout(
+            const Duration(seconds: 15),
+          );
+      blogModel = BlogModel.fromJson(response.data);
+    } on dio.DioException catch (err) {
+      final errorMessage = DioException.fromDioError(err).toString();
+      customSnackBar("Error", errorMessage);
+      errorText.value = errorMessage;
     } catch (e) {
-      print(e);
+      customSnackBar("Error", "Connection Time Out");
+      errorText.value = "Connection Timeout";
     } finally {
       initialLoad.value = false;
     }
@@ -78,8 +85,12 @@ class BlogController extends GetxController {
         ),
       );
       customSnackBar("Success", "Blog Added", "green");
+    } on dio.DioException catch (err) {
+      final errorMessage = DioException.fromDioError(err).toString();
+      customSnackBar("Error", errorMessage);
+      errorText.value = errorMessage;
     } catch (e) {
-      print(e);
+      errorText.value = "Something Went Wrong";
     } finally {
       isAddBlogPressed.value = false;
       titleController.clear();
@@ -114,6 +125,10 @@ class BlogController extends GetxController {
       Get.back();
       customSnackBar("Success", "Blog Edited Successfully", "green");
       getBlogs();
+    } on dio.DioException catch (err) {
+      final errorMessage = DioException.fromDioError(err).toString();
+      customSnackBar("Error", errorMessage);
+      errorText.value = errorMessage;
     } catch (e) {
       print(e);
     } finally {
@@ -135,6 +150,10 @@ class BlogController extends GetxController {
       );
       customSnackBar("Success", "Blog Deleted Successfully", "green");
       getBlogs();
+    } on dio.DioException catch (err) {
+      final errorMessage = DioException.fromDioError(err).toString();
+      customSnackBar("Error", errorMessage);
+      errorText.value = errorMessage;
     } catch (e) {
       print(e);
     }
@@ -166,7 +185,7 @@ class BlogController extends GetxController {
       final String imageUrl = await taskSnapshot.ref.getDownloadURL();
       return imageUrl;
     } catch (e) {
-      print(e);
+      handleFirebaseError(e);
       return "";
     }
   }

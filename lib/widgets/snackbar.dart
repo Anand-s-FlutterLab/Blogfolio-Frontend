@@ -12,7 +12,7 @@ SnackbarController customSnackBar(String title, String subtitle,
     title,
     subtitle,
     snackPosition: SnackPosition.BOTTOM,
-    backgroundColor: color!.withOpacity(0.3),
+    backgroundColor: color!.withOpacity(0.2),
     barBlur: 30.0,
     borderRadius: 20,
     margin: const EdgeInsets.all(15),
@@ -20,21 +20,23 @@ SnackbarController customSnackBar(String title, String subtitle,
     overlayBlur: 3,
     snackStyle: SnackStyle.FLOATING,
     duration: const Duration(seconds: 3),
-    forwardAnimationCurve: Curves.decelerate,
+    forwardAnimationCurve: Curves.easeInBack,
     titleText: Text(
       title,
-      style: TextStyle(
-        fontSize: 18.0,
-        fontWeight: FontWeight.bold,
+      style: AppStyle.textFormFieldStyle(
+        fontSize: width * 0.05,
         color: color,
+        fontWeight: FontWeight.bold
       ),
     ),
+    isDismissible: true,
+    overlayColor: Colors.black.withOpacity(0.1),
     messageText: Text(
       subtitle,
-      style: TextStyle(
-        fontSize: 15.0,
-        color: color,
-        fontStyle: FontStyle.italic,
+      style: AppStyle.textFormFieldStyle(
+          fontSize: width * 0.04,
+          color: color,
+          fontWeight: FontWeight.bold
       ),
     ),
   );

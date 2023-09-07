@@ -23,6 +23,40 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                 color: blackColor,
               ),
             ),
+          ),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Logout'),
+                    content: const Text('Are you sure want to logout?.'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          controller.onLogout();
+                        },
+                        child: const Text('Logout'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Icon(
+                Icons.logout_rounded,
+                color: blackColor,
+              ),
+            ),
           )
         ],
         title: Row(
@@ -44,70 +78,10 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
           ],
         ),
       ),
-      // body: SafeArea(
-      //   child: Container(
-      //       height: height,
-      //       width: width,
-      //       padding: const EdgeInsets.all(20),
-      //       child: ListView.separated(
-      //           itemBuilder: (context, index) {
-      //             return GestureDetector(
-      //               onTap: () => Get.toNamed(AppRoutes.profileScreen),
-      //               child: Container(
-      //                 padding: const EdgeInsets.all(15),
-      //                 width: width,
-      //                 decoration: AppDecoration.containerBoxDecoration(
-      //                     borderRadius: 12),
-      //                 child: Column(
-      //                   crossAxisAlignment: CrossAxisAlignment.start,
-      //                   children: [
-      //                     customText(
-      //                       text: "Anand Patel",
-      //                       fontWeight: FontWeight.bold,
-      //                       fontSize: width * 0.07,
-      //                       color: primaryColor,
-      //                     ),
-      //                     SizedBox(
-      //                       height: height * 0.005,
-      //                     ),
-      //                     Row(
-      //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                       children: [
-      //                         customText(
-      //                           text: "anand@gmail.com",
-      //                           fontWeight: FontWeight.bold,
-      //                           fontSize: width * 0.04,
-      //                           color: greyColor,
-      //                         ),
-      //                         customText(
-      //                           text: "7069144776",
-      //                           fontWeight: FontWeight.bold,
-      //                           fontSize: width * 0.04,
-      //                           color: greyColor,
-      //                         ),
-      //                       ],
-      //                     ),
-      //                     customDivider(dHeight: 5),
-      //                     customText(text: "Projects: 1"),
-      //                     customDivider(),
-      //                     customText(text: "Skills: 15"),
-      //                     customDivider(),
-      //                     customText(text: "Achievement: 3"),
-      //                   ],
-      //                 ),
-      //               ),
-      //             );
-      //           },
-      //           separatorBuilder: (context, index) => SizedBox(
-      //                 height: height * 0.011,
-      //               ),
-      //           itemCount: 3)),
-      // ),
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: height,
           width: width,
-          padding: const EdgeInsets.all(20),
           child: StreamBuilder<QuerySnapshot>(
             stream: controller.portfolios,
             builder: (context, snapshot) {
@@ -115,12 +89,15 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                 return const Text('Something went wrong');
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return customLoadingAnimation(size: height * 0.3);
+                return customLoadingAnimation(
+                    size: height * 0.08, color: primaryColor);
               }
               return ListView.separated(
+                padding: const EdgeInsets.all(20),
                 itemBuilder: (context, index) {
                   Map<String, dynamic> userPortfolio =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                  print(userPortfolio);
                   return GestureDetector(
                     onTap: () {
                       controller.portfolioModel =
@@ -131,55 +108,70 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                       padding: const EdgeInsets.all(15),
                       width: width,
                       decoration: AppDecoration.containerBoxDecoration(
-                          borderRadius: 12),
+                        borderRadius: 12,
+                        blurRadius: 15,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          customText(
-                            text: userPortfolio["name"],
-                            fontWeight: FontWeight.bold,
-                            fontSize: width * 0.07,
-                            color: primaryColor,
+                          Row(
+                            children: [
+                              customImageView(
+                                  url: userPortfolio["Profile URL"],
+                                  imgHeight: height * 0.1,
+                                  imgWidth: height * 0.1,
+                                  borderRadius: 12,
+                                  fit: BoxFit.cover),
+                              SizedBox(
+                                width: width * 0.03,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  customText(
+                                    text: userPortfolio["Name"],
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: width * 0.08,
+                                    color: primaryColor,
+                                  ),
+                                  customText(
+                                    text: userPortfolio["Email Address"],
+                                    fontSize: width * 0.05,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.deepOrange.shade700,
+                                  ),
+                                  customText(
+                                    text: userPortfolio["Mobile"],
+                                    fontSize: width * 0.05,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.deepOrange.shade700,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: height * 0.005,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              customText(
-                                text: userPortfolio["emailAddress"],
-                                fontWeight: FontWeight.bold,
-                                fontSize: width * 0.04,
-                                color: greyColor,
-                              ),
-                              customText(
-                                text: userPortfolio["mobile"],
-                                fontWeight: FontWeight.bold,
-                                fontSize: width * 0.04,
-                                color: greyColor,
-                              ),
-                            ],
-                          ),
                           customDivider(dHeight: 5),
                           customText(
                               text:
-                                  "Projects: ${userPortfolio["projects"].length}"),
+                                  "Projects: ${userPortfolio["Projects"].length}"),
                           customDivider(),
                           customText(
                               text:
-                                  "Skills: ${userPortfolio["skills"].length}"),
+                                  "Skills: ${userPortfolio["Skills"].length}"),
                           customDivider(),
                           customText(
                               text:
-                                  "Achievement: ${userPortfolio["achievements"].length}"),
+                                  "Achievement: ${userPortfolio["Achievements"].length}"),
                         ],
                       ),
                     ),
                   );
                 },
                 separatorBuilder: (context, index) => SizedBox(
-                  height: height * 0.011,
+                  height: height * 0.02,
                 ),
                 itemCount: snapshot.data!.docs.length,
               );

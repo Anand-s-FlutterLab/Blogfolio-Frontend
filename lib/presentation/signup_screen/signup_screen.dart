@@ -49,12 +49,12 @@ class SignupScreen extends GetWidget<SignupController> {
                         fontSize: width * 0.05),
                     keyboardType: TextInputType.emailAddress,
                     decoration: AppDecoration().textInputDecoration(
-                        hintText: "Enter First Name",
-                        lableText: "First Name",
+                        hintText: "Enter Your Full Name",
+                        lableText: "Name",
                         icon: Icons.person),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please provide a Firstname';
+                        return 'Please provide a Name';
                       }
                       return null;
                     },

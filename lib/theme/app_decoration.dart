@@ -31,15 +31,16 @@ class AppDecoration {
 
   static BoxDecoration containerBoxDecoration({
     double borderRadius = 12,
-    Color color = Colors.white
+    Color color = Colors.white,
+    double blurRadius = 7,
 }) {
     return BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(borderRadius),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
             color: Colors.black12,
-            blurRadius: 7,
+            blurRadius: blurRadius,
           )
         ]);
   }

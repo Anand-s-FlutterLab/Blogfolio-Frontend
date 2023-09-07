@@ -19,6 +19,9 @@ class SignUpModel {
       "Email Address": emailAddress,
       "Mobile": mobile,
       "Profile URL": profileURL,
+      "Achievements": [],
+      "Projects": [],
+      "Skills": []
     };
   }
 }

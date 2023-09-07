@@ -20,27 +20,24 @@ class ContactFormController extends GetxController {
       isFormSubmitting.value = true;
       final CollectionReference productDoc =
           FirebaseFirestore.instance.collection(collectionContactForm);
-      await productDoc
-          .add(
-            {
-              "Candidate Name": nameController.text,
-              "Mobile Number": mobileController.text,
-              "Message": messageController.text,
-              "User ID": userID.value,
-              "User Name": userName.value
-            },
-          )
-          .then((value) {
-            customSnackBar("Success", "Form Has been submitted ", "green");
-            nameController.clear();
-            mobileController.clear();
-            messageController.clear();
-      })
-          .catchError((error) {
-            handleFirebaseError(error);
-          });
+      await productDoc.add(
+        {
+          "Candidate Name": nameController.text,
+          "Mobile Number": mobileController.text,
+          "Message": messageController.text,
+          "User ID": userID.value,
+          "User Name": userName.value
+        },
+      ).then((value) {
+        customSnackBar("Success", "Form Has been submitted ", "green");
+        nameController.clear();
+        mobileController.clear();
+        messageController.clear();
+      }).catchError((error) {
+        handleFirebaseError(error);
+      });
     } catch (e) {
-      print(e);
+      customSnackBar("Error", "Something Went Wrong");
     } finally {
       isFormSubmitting.value = false;
     }

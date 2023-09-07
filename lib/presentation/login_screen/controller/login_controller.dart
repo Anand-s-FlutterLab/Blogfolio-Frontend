@@ -11,6 +11,13 @@ class LoginController extends GetxController {
   RxBool obscureText = true.obs;
   RxBool isLogin = false.obs;
 
+  @override
+  void dispose(){
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
   Future<void> onLogin() async {
     if (loginFormKey.currentState!.validate()) {
       try {

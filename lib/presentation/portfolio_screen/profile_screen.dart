@@ -19,13 +19,14 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                   children: [
                     Container(
                       decoration: AppDecoration.containerBoxDecoration(
-                          borderRadius: 12),
+                        borderRadius: 12,
+                      ),
                       child: customImageView(
-                          url: controller.portfolioModel.profileImage,
-                          imgHeight: 100,
-                          imgWidth: 100,
-                          fit: BoxFit.scaleDown,
-                          borderRadius: 12),
+                        url: controller.portfolioModel.profileImage,
+                        imgHeight: 100,
+                        imgWidth: 100,
+                        borderRadius: 12,
+                      ),
                     ),
                     const SizedBox(
                       width: 15,
@@ -42,8 +43,12 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                         const SizedBox(
                           height: 5,
                         ),
-                        customText(text: "Email: ${controller.portfolioModel.emailAddress}"),
-                        customText(text: "Mobile: ${controller.portfolioModel.mobile}"),
+                        customText(
+                            text:
+                                "Email: ${controller.portfolioModel.emailAddress}"),
+                        customText(
+                            text:
+                                "Mobile: ${controller.portfolioModel.mobile}"),
                       ],
                     )
                   ],
@@ -55,21 +60,12 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                 const SizedBox(
                   height: 20,
                 ),
-                ListView.separated(
-                    physics: const ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => customText(
-                          text: controller.portfolioModel.projects[index],
-                          textAlign: TextAlign.start,
-                          fontSize: width * 0.05,
-                          color: blackColor,
-                        ),
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 10,
-                      );
-                    },
-                    itemCount: controller.portfolioModel.projects.length),
+                customGridViewBuilder(
+                  itemCount: controller.portfolioModel.projects.length,
+                  backgroundColor: Colors.pink.withOpacity(0.1),
+                  textColor: Colors.pink.shade600,
+                  data: controller.portfolioModel.projects,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -77,33 +73,11 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                 const SizedBox(
                   height: 20,
                 ),
-                GridView.builder(
-                  physics: const ClampingScrollPhysics(),
-                  shrinkWrap: true,
+                customGridViewBuilder(
                   itemCount: controller.portfolioModel.skills.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 4 / 1,
-                    crossAxisSpacing: 25,
-                    mainAxisSpacing: 15,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      alignment: Alignment.center,
-                      height: height * 0.15,
-                      width: width * 0.42,
-                      decoration: BoxDecoration(
-                        color: blueGreyColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: customText(
-                        color: blueGreyColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: width * 0.058,
-                        text: controller.portfolioModel.skills[index],
-                      ),
-                    );
-                  },
+                  backgroundColor: Colors.orangeAccent.withOpacity(0.2),
+                  textColor: Colors.orangeAccent.shade700,
+                  data: controller.portfolioModel.skills,
                 ),
                 const SizedBox(
                   height: 20,
@@ -112,21 +86,11 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                 const SizedBox(
                   height: 20,
                 ),
-                ListView.separated(
-                  itemBuilder: (context, index) => customText(
-                    color: blackColor,
-                    fontSize: width * 0.058,
-                    textAlign: TextAlign.start,
-                    text: controller.portfolioModel.achievements[index],
-                  ),
-                  physics: const ClampingScrollPhysics(),
-                  shrinkWrap: true,
+                customGridViewBuilder(
                   itemCount: controller.portfolioModel.achievements.length,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      height: 15,
-                    );
-                  },
+                  backgroundColor: Colors.cyan.withOpacity(0.1),
+                  textColor: Colors.cyan.shade600,
+                  data: controller.portfolioModel.achievements,
                 ),
               ],
             ),
@@ -162,5 +126,41 @@ Widget titleBuilder({required String title}) {
         color: primaryColor,
       ),
     ],
+  );
+}
+
+Widget customGridViewBuilder({
+  required int itemCount,
+  required Color backgroundColor,
+  required Color textColor,
+  required List data,
+}) {
+  return GridView.builder(
+    physics: const ClampingScrollPhysics(),
+    shrinkWrap: true,
+    itemCount: itemCount,
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      childAspectRatio: 4 / 1,
+      crossAxisSpacing: 25,
+      mainAxisSpacing: 15,
+    ),
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        alignment: Alignment.center,
+        height: height * 0.15,
+        width: width * 0.42,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(40),
+        ),
+        child: customText(
+          color: textColor,
+          fontWeight: FontWeight.bold,
+          fontSize: width * 0.058,
+          text: data[index],
+        ),
+      );
+    },
   );
 }
