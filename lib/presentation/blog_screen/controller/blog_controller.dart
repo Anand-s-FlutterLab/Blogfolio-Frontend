@@ -74,7 +74,8 @@ class BlogController extends GetxController {
             "title": titleController.text,
             "content": contentController.text,
             "author": userName.value,
-            "imageUrl": profileURL,
+            "imageUrl":
+                profileURL.isEmpty ? defaultBlogImage : profileURL.value,
             "authorID": userID.value,
             "readMin": readTimeController.text,
             "userProfileUrl": defaultProfileImage
@@ -84,6 +85,9 @@ class BlogController extends GetxController {
           headers: {"Authorization": token},
         ),
       );
+
+      getBlogs();
+      Get.back();
       customSnackBar("Success", "Blog Added", "green");
     } on dio.DioException catch (err) {
       final errorMessage = DioException.fromDioError(err).toString();
@@ -97,6 +101,7 @@ class BlogController extends GetxController {
       contentController.clear();
       readTimeController.clear();
       profileURL.value = "";
+      profileImage.value = null;
     }
   }
 

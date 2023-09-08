@@ -19,19 +19,19 @@ class ConnectivityController extends GetxController {
       hasInternet.refresh();
       print("Internet Connected: ${hasInternet.value}");
       if (!hasInternet.value) {
-        // Get.offNamed(AppRoutes.errorScreen);
+        Get.offNamed(AppRoutes.errorScreen);
         shownErrorScreenBefore.value = true;
       } else {
         if (FirebaseAuth.instance.currentUser != null) {
           if (Get.overlayContext != null) {
-            // Navigator.of(Get.overlayContext!).canPop()
-            //     ? Get.back()
-            //     : Get.offNamed(AppRoutes.homeScreen);
+            Navigator.of(Get.overlayContext!).canPop()
+                ? Get.back()
+                : Get.offNamed(AppRoutes.portfolioScreen);
           } else {
-            // Get.offNamed(AppRoutes.homeScreen);
+            Get.offNamed(AppRoutes.portfolioScreen);
           }
         } else if (shownErrorScreenBefore.value) {
-          // Get.offNamed(AppRoutes.loginScreen);
+          Get.offNamed(AppRoutes.loginScreen);
         }
       }
     });

@@ -21,18 +21,25 @@ class AddBlogScreen extends GetWidget<BlogController> {
                 children: [
                   _buildImagePicker(),
                   Positioned(
-                    top: -10,
+                    bottom: -10,
                     right: -10,
                     child: GestureDetector(
                       onTap: () => controller.openImagePicker(),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.15),
-                            shape: BoxShape.circle),
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: whiteColor,
+                            width: 4,
+                          ),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: Icon(Icons.edit_rounded,
-                              color: Colors.blue.shade800),
+                          child: Icon(
+                            Icons.edit_rounded,
+                            color: whiteColor,
+                          ),
                         ),
                       ),
                     ),
@@ -75,8 +82,9 @@ class AddBlogScreen extends GetWidget<BlogController> {
               ),
               GestureDetector(
                 onTap: () {
-                  final data = Get.arguments;
-                  if (data[1] == "True") {
+                  var data = [];
+                  if (Get.arguments != null) {
+                    data = Get.arguments;
                     controller.editBlog(data[0]);
                   } else {
                     controller.addBlogs();
@@ -128,11 +136,8 @@ class AddBlogScreen extends GetWidget<BlogController> {
                   ? Image.file(controller.profileImage.value!,
                       fit: BoxFit.cover)
                   : customImageView(
-                      // url: controller.editProfileModel.profileUrl.isEmpty
-                      //     ? defaultProfileImage
-                      //     : controller.editProfileModel.profileUrl,
                       url: controller.profileURL.value.isEmpty
-                          ? defaultProfileImage
+                          ? defaultBlogImage
                           : controller.profileURL.value,
                       imgHeight: height * 0.25,
                       imgWidth: width * 0.5,

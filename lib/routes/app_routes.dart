@@ -59,7 +59,6 @@ class AppRoutes {
       name: blogDetailsScreen,
       page: () => const BlogDetailsScreen(),
       binding: BlogBindings(),
-      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: addBlogScreen,
@@ -83,7 +82,6 @@ class AppRoutes {
       name: profileScreen,
       page: () => const ProfileScreen(),
       binding: PortfolioBindings(),
-      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: editProfileScreen,

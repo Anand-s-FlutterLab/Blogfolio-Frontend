@@ -61,20 +61,23 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
         ],
         title: Row(
           children: [
-            customImageView(
-              url: appLogo,
-              imgHeight: width * 0.07,
-              imgWidth: width * 0.07,
-              isAssetImage: true,
+            Container(
+              child: customImageView(
+                url: appLogo,
+                imgHeight: height * 0.06,
+                imgWidth: height * 0.06,
+                isAssetImage: true,
+              ),
             ),
             SizedBox(
               width: width * 0.02,
             ),
             customText(
-                color: blackColor,
-                fontSize: width * 0.06,
-                text: "Blogfolio",
-                fontWeight: FontWeight.bold),
+              color: blackColor,
+              fontSize: height * 0.04,
+              text: "Blogfolio",
+              fontWeight: FontWeight.bold,
+            ),
           ],
         ),
       ),
@@ -94,10 +97,10 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
               }
               return ListView.separated(
                 padding: const EdgeInsets.all(20),
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   Map<String, dynamic> userPortfolio =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
-                  print(userPortfolio);
                   return GestureDetector(
                     onTap: () {
                       controller.portfolioModel =
@@ -109,19 +112,26 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                       width: width,
                       decoration: AppDecoration.containerBoxDecoration(
                         borderRadius: 12,
-                        blurRadius: 15,
+                        blurRadius: 7,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
-                              customImageView(
-                                  url: userPortfolio["Profile URL"],
-                                  imgHeight: height * 0.1,
-                                  imgWidth: height * 0.1,
-                                  borderRadius: 12,
-                                  fit: BoxFit.cover),
+                              Container(
+                                decoration:
+                                    AppDecoration.containerBoxDecoration(),
+                                child: Hero(
+                                  tag: "Hero ${userPortfolio['Email Address']}",
+                                  child: customImageView(
+                                      url: userPortfolio["Profile URL"],
+                                      imgHeight: height * 0.1,
+                                      imgWidth: height * 0.1,
+                                      borderRadius: 12,
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
                               SizedBox(
                                 width: width * 0.03,
                               ),
@@ -138,33 +148,60 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                                     text: userPortfolio["Email Address"],
                                     fontSize: width * 0.05,
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.deepOrange.shade700,
+                                    color: greyColor,
                                   ),
                                   customText(
                                     text: userPortfolio["Mobile"],
                                     fontSize: width * 0.05,
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.deepOrange.shade700,
+                                    color: greyColor,
                                   ),
                                 ],
                               ),
                             ],
                           ),
                           SizedBox(
-                            height: height * 0.005,
+                            height: height * 0.02,
                           ),
-                          customDivider(dHeight: 5),
-                          customText(
-                              text:
-                                  "Projects: ${userPortfolio["Projects"].length}"),
-                          customDivider(),
-                          customText(
-                              text:
-                                  "Skills: ${userPortfolio["Skills"].length}"),
-                          customDivider(),
-                          customText(
-                              text:
-                                  "Achievement: ${userPortfolio["Achievements"].length}"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              roundedContainer(
+                                bgColor: Colors.pink.withOpacity(0.1),
+                                data:
+                                    "Projects: ${userPortfolio["Projects"].length}",
+                                textColor: Colors.pink.shade700,
+                                containerWidth: width * 0.38,
+                              ),
+                              roundedContainer(
+                                bgColor: Colors.deepOrange.withOpacity(0.1),
+                                data:
+                                    "Skills: ${userPortfolio["Skills"].length}",
+                                textColor: Colors.deepOrange.shade700,
+                                containerWidth: width * 0.38,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: height * 0.01,
+                          ),
+                          roundedContainer(
+                              bgColor: Colors.cyan.withOpacity(0.1),
+                              data:
+                                  "Achievement: ${userPortfolio["Achievements"].length}",
+                              textColor: Colors.cyan.shade700),
+                          // customDivider(dHeight: 5),
+                          // customText(
+                          //     text:
+                          //         "Projects: ${userPortfolio["Projects"].length}"),
+                          // customDivider(),
+                          // customText(
+                          //     text:
+                          //         "Skills: ${userPortfolio["Skills"].length}"),
+                          // customDivider(),
+                          // customText(
+                          //     text:
+                          //         "Achievement: ${userPortfolio["Achievements"].length}"),
                         ],
                       ),
                     ),
@@ -198,5 +235,28 @@ Widget customDivider({double dHeight = 3}) {
         height: dHeight,
       ),
     ],
+  );
+}
+
+Widget roundedContainer({
+  required String data,
+  required Color bgColor,
+  required Color textColor,
+  double containerWidth = double.infinity,
+}) {
+  return Container(
+    width: containerWidth,
+    alignment: Alignment.center,
+    padding: const EdgeInsets.only(top: 5, bottom: 5),
+    decoration: BoxDecoration(
+      color: bgColor,
+      borderRadius: BorderRadius.circular(40),
+    ),
+    child: customText(
+      color: textColor,
+      fontWeight: FontWeight.bold,
+      fontSize: width * 0.05,
+      text: data,
+    ),
   );
 }

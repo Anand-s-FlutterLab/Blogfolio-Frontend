@@ -14,9 +14,9 @@ class ErrorScreen extends StatelessWidget {
           width: Get.width,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                Colors.blue.shade400,
-                Colors.blue.shade800,
-              ])),
+            Colors.blue.shade400,
+            Colors.blue.shade800,
+          ])),
           child: Column(
             children: [
               Container(
@@ -59,7 +59,10 @@ class ErrorScreen extends StatelessWidget {
                         ),
                         customImageView(
                           url: noInternetConnection,
-                          fit: BoxFit.scaleDown, imgHeight: 300, imgWidth: 300,
+                          fit: BoxFit.scaleDown,
+                          imgHeight: 300,
+                          imgWidth: 300,
+                          isAssetImage: true,
                         ),
                       ],
                     ),

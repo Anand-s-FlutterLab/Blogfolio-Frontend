@@ -47,18 +47,25 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                       ),
                     ),
                     Positioned(
-                      top: -10,
+                      bottom: -10,
                       right: -10,
                       child: GestureDetector(
                         onTap: () => controller.openImagePicker(),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.15),
-                              shape: BoxShape.circle),
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: whiteColor,
+                              width: 4,
+                            ),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
-                            child: Icon(Icons.edit_rounded,
-                                color: Colors.blue.shade800),
+                            child: Icon(
+                              Icons.edit_rounded,
+                              color: whiteColor,
+                            ),
                           ),
                         ),
                       ),
@@ -266,29 +273,23 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
         padding: const EdgeInsets.all(20),
         height: 200,
         decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(40),
-            topLeft: Radius.circular(40),
-          ),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 80,
-              spreadRadius: 5
-            )
-          ]
-        ),
+            color: whiteColor,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(40),
+              topLeft: Radius.circular(40),
+            ),
+            boxShadow: const [
+              BoxShadow(color: Colors.black26, blurRadius: 80, spreadRadius: 5)
+            ]),
         child: Column(
           children: [
             _buildTextInputField(
-              errorMessage: "Please enter $label",
-              hintText: "Enter $label Here",
-              icon: Icons.data_saver_on_outlined,
-              controller: controller.addDataController,
-              labelText: label,
-              textInputType: TextInputType.text
-            ),
+                errorMessage: "Please enter $label",
+                hintText: "Enter $label Here",
+                icon: Icons.data_saver_on_outlined,
+                controller: controller.addDataController,
+                labelText: label,
+                textInputType: TextInputType.text),
             SizedBox(
               height: height * 0.03,
             ),
@@ -358,15 +359,14 @@ Widget titleBuilder({required String title, required VoidCallback addData}) {
   );
 }
 
-Widget _buildTextInputField({
-  required String labelText,
-  required String hintText,
-  required TextEditingController controller,
-  required String errorMessage,
-  required IconData icon,
-  bool readOnly = false,
-  TextInputType textInputType = TextInputType.number
-}) {
+Widget _buildTextInputField(
+    {required String labelText,
+    required String hintText,
+    required TextEditingController controller,
+    required String errorMessage,
+    required IconData icon,
+    bool readOnly = false,
+    TextInputType textInputType = TextInputType.number}) {
   return Container(
     width: width == 50 ? Get.width - 75 : width,
     decoration: AppDecoration.inputBoxDecorationShadow(),

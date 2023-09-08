@@ -40,7 +40,7 @@ class BlogScreen extends GetWidget<BlogController> {
                           ),
                         ),
                         customText(
-                          text: "Time to read Blogfolio's blog.",
+                          text: "Time to Explore Blogfolio's blog.",
                           fontSize: width * 0.05,
                           fontWeight: FontWeight.bold,
                           color: greyColor,
@@ -117,14 +117,17 @@ class BlogScreen extends GetWidget<BlogController> {
                                                     bottomLeft:
                                                         Radius.circular(12),
                                                   ),
-                                                  child: customImageView(
-                                                    url: controller
-                                                        .blogModel
-                                                        .data[index]
-                                                        .attributes
-                                                        .imageUrl,
-                                                    imgHeight: height * 0.1730,
-                                                    imgWidth: width * 0.2919,
+                                                  child: Hero(
+                                                    tag: "BlogImage_${controller.blogModel.data[index].id}",
+                                                    child: customImageView(
+                                                      url: controller
+                                                          .blogModel
+                                                          .data[index]
+                                                          .attributes
+                                                          .imageUrl,
+                                                      imgHeight: height * 0.1730,
+                                                      imgWidth: width * 0.2919,
+                                                    ),
                                                   ),
                                                 ),
                                                 Container(
@@ -166,10 +169,10 @@ class BlogScreen extends GetWidget<BlogController> {
                                                       const Spacer(),
                                                       Align(
                                                         alignment: Alignment
-                                                            .centerRight,
+                                                            .centerLeft,
                                                         child: customText(
                                                             text:
-                                                                "Last Updated: ${controller.blogModel.data[index].attributes.updatedAt}",
+                                                                "Last Updated: ${controller.blogModel.data[index].attributes.updatedAt.toString().substring(0, 10)}",
                                                             color: greyColor,
                                                             fontSize:
                                                                 width * 0.035),
@@ -203,7 +206,6 @@ class BlogScreen extends GetWidget<BlogController> {
                                                                       .currentSelectedBlog
                                                                       .value]
                                                                   .id,
-                                                              "True"
                                                             ]);
                                                       },
                                                       icon: const Icon(

@@ -25,18 +25,21 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
               onTap: () {
                 Get.back();
               },
-              child: Icon(Icons.arrow_back_ios, color: blackColor),
+              child: Icon(Icons.arrow_back_ios, color: whiteColor),
             ),
             expandedHeight: Get.height * 0.50,
             flexibleSpace: FlexibleSpaceBar(
               background: SizedBox(
                 height: height * 0.5,
-                child: customImageView(
-                  url: controller.blogModel.data[index].attributes.imageUrl,
-                  imgHeight: height * 0.5,
-                  imgWidth: width,
-                  borderRadius: 0,
-                  radiusBottomLeft: 70,
+                child: Hero(
+                   tag: "BlogImage_${controller.blogModel.data[index].id}",
+                  child: customImageView(
+                    url: controller.blogModel.data[index].attributes.imageUrl,
+                    imgHeight: height * 0.5,
+                    imgWidth: width,
+                    borderRadius: 0,
+                    radiusBottomLeft: 70,
+                  ),
                 ),
               ),
             ),

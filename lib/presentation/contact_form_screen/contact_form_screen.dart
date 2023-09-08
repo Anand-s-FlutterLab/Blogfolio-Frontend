@@ -17,13 +17,13 @@ class ContactFormScreen extends GetWidget<ContactFormController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: height * 0.1,
+                height: height * 0.05,
               ),
               customImageView(
-                url: appLogo,
-                imgHeight: height * 0.1,
-                imgWidth: height * 0.1,
-                isAssetImage: true,
+                url: contactUsImage,
+                imgHeight: height * 0.2,
+                imgWidth: height * 0.2,
+                fit: BoxFit.scaleDown
               ),
               SizedBox(
                 height: height * 0.02,
@@ -32,10 +32,10 @@ class ContactFormScreen extends GetWidget<ContactFormController> {
                 color: primaryColor,
                 fontSize: width * 0.1,
                 fontWeight: FontWeight.bold,
-                text: "Contact Form",
+                text: "Get In Touch",
               ),
               SizedBox(
-                height: height * 0.08,
+                height: height * 0.04,
               ),
               Container(
                 decoration: AppDecoration.inputBoxDecorationShadow(),

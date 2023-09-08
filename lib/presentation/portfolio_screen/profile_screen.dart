@@ -21,11 +21,14 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                       decoration: AppDecoration.containerBoxDecoration(
                         borderRadius: 12,
                       ),
-                      child: customImageView(
-                        url: controller.portfolioModel.profileImage,
-                        imgHeight: 100,
-                        imgWidth: 100,
-                        borderRadius: 12,
+                      child: Hero(
+                        tag: "Hero ${controller.portfolioModel.emailAddress}",
+                        child: customImageView(
+                          url: controller.portfolioModel.profileImage,
+                          imgHeight: 100,
+                          imgWidth: 100,
+                          borderRadius: 12,
+                        ),
                       ),
                     ),
                     const SizedBox(
