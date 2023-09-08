@@ -1,5 +1,7 @@
+// Import the necessary package.
 import 'package:flutter_frontend/core/app_export.dart';
 
+// Define a stateful widget for the bottom navigation bar.
 class BottomNavigationWidget extends StatefulWidget {
   const BottomNavigationWidget({Key? key}) : super(key: key);
 
@@ -9,6 +11,7 @@ class BottomNavigationWidget extends StatefulWidget {
   }
 }
 
+// Define the state for the bottom navigation bar.
 class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   @override
   Widget build(BuildContext context) {
@@ -72,6 +75,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 
+  // Function to handle item tap in the bottom navigation bar.
   void _onItemTapped(int index) {
     setState(() {
       selectedBottomNavigationIndex = index;
@@ -80,7 +84,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     });
   }
 
-  // This will navigate to respective pages
+  // Function to navigate to respective pages based on the selected index.
   void _navigateToScreens(int index) {
     if (index == 0) {
       Get.offNamed(AppRoutes.portfolioScreen);

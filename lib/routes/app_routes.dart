@@ -1,3 +1,4 @@
+// Import the necessary packages and classes.
 import 'package:flutter_frontend/presentation/blog_screen/add_blog_screen.dart';
 import 'package:flutter_frontend/presentation/blog_screen/binding/home_binding.dart';
 import 'package:flutter_frontend/presentation/blog_screen/blog_details_screen.dart';
@@ -17,7 +18,9 @@ import 'package:flutter_frontend/presentation/signup_screen/signup_screen.dart';
 import 'package:flutter_frontend/presentation/splash_screen.dart';
 import 'package:get/get.dart';
 
+// Define a class for managing app routes and page configurations.
 class AppRoutes {
+  // Define route names as constants.
   static String splashScreen = "/splash_screen";
   static String loginScreen = "/login_screen";
   static String signupScreen = "/signup_screen";
@@ -31,6 +34,7 @@ class AppRoutes {
   static String errorScreen = "/error_screen";
   static String permissionErrorScreen = "/permission_error_screen";
 
+  // Define a list of GetPage objects for route configuration.
   static List<GetPage> pages = [
     GetPage(
       name: splashScreen,

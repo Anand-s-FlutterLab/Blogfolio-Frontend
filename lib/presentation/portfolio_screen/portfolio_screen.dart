@@ -2,6 +2,7 @@ import 'package:flutter_frontend/presentation/portfolio_screen/controller/portfo
 import 'package:flutter_frontend/core/app_export.dart';
 import 'package:flutter_frontend/presentation/portfolio_screen/model/portfolio_model.dart';
 
+// This class represents the Portfolio Screen and extends GetWidget to access the PortfolioController.
 class PortfolioScreen extends GetWidget<PortfolioController> {
   const PortfolioScreen({super.key});
 
@@ -14,6 +15,7 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
         automaticallyImplyLeading: false,
         backgroundColor: whiteColor,
         actions: [
+          // Edit profile icon, navigates to the edit profile screen.
           GestureDetector(
             onTap: () => Get.toNamed(AppRoutes.editProfileScreen),
             child: Padding(
@@ -24,6 +26,7 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
               ),
             ),
           ),
+          // Logout icon, displays a confirmation dialog before logging out.
           GestureDetector(
             onTap: () {
               showDialog(
@@ -61,6 +64,7 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
         ],
         title: Row(
           children: [
+            // App logo.
             Container(
               child: customImageView(
                 url: appLogo,
@@ -72,6 +76,7 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
             SizedBox(
               width: width * 0.02,
             ),
+            // App title.
             customText(
               color: blackColor,
               fontSize: height * 0.04,
@@ -92,6 +97,7 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                 return const Text('Something went wrong');
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
+                // Display a loading animation while waiting for data.
                 return customLoadingAnimation(
                     size: height * 0.08, color: primaryColor);
               }
@@ -99,10 +105,12 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                 padding: const EdgeInsets.all(20),
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
+                  // Extract user portfolio data from the Firestore snapshot.
                   Map<String, dynamic> userPortfolio =
-                      snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                  snapshot.data!.docs[index].data() as Map<String, dynamic>;
                   return GestureDetector(
                     onTap: () {
+                      // Navigate to the user's profile screen.
                       controller.portfolioModel =
                           PortfolioModel.fromJson(userPortfolio);
                       Get.toNamed(AppRoutes.profileScreen);
@@ -119,9 +127,10 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                         children: [
                           Row(
                             children: [
+                              // User's profile image.
                               Container(
                                 decoration:
-                                    AppDecoration.containerBoxDecoration(),
+                                AppDecoration.containerBoxDecoration(),
                                 child: Hero(
                                   tag: "Hero ${userPortfolio['Email Address']}",
                                   child: customImageView(
@@ -138,6 +147,7 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // User's name, email, and mobile.
                                   customText(
                                     text: userPortfolio["Name"],
                                     fontWeight: FontWeight.bold,
@@ -166,17 +176,18 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              // Display the number of projects and skills.
                               roundedContainer(
                                 bgColor: Colors.pink.withOpacity(0.1),
                                 data:
-                                    "Projects: ${userPortfolio["Projects"].length}",
+                                "Projects: ${userPortfolio["Projects"].length}",
                                 textColor: Colors.pink.shade700,
                                 containerWidth: width * 0.38,
                               ),
                               roundedContainer(
                                 bgColor: Colors.deepOrange.withOpacity(0.1),
                                 data:
-                                    "Skills: ${userPortfolio["Skills"].length}",
+                                "Skills: ${userPortfolio["Skills"].length}",
                                 textColor: Colors.deepOrange.shade700,
                                 containerWidth: width * 0.38,
                               ),
@@ -185,23 +196,12 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
                           SizedBox(
                             height: height * 0.01,
                           ),
+                          // Display the number of achievements.
                           roundedContainer(
                               bgColor: Colors.cyan.withOpacity(0.1),
                               data:
-                                  "Achievement: ${userPortfolio["Achievements"].length}",
+                              "Achievement: ${userPortfolio["Achievements"].length}",
                               textColor: Colors.cyan.shade700),
-                          // customDivider(dHeight: 5),
-                          // customText(
-                          //     text:
-                          //         "Projects: ${userPortfolio["Projects"].length}"),
-                          // customDivider(),
-                          // customText(
-                          //     text:
-                          //         "Skills: ${userPortfolio["Skills"].length}"),
-                          // customDivider(),
-                          // customText(
-                          //     text:
-                          //         "Achievement: ${userPortfolio["Achievements"].length}"),
                         ],
                       ),
                     ),
@@ -221,6 +221,7 @@ class PortfolioScreen extends GetWidget<PortfolioController> {
   }
 }
 
+// Function to create a custom divider with a specified height.
 Widget customDivider({double dHeight = 3}) {
   return Column(
     children: [
@@ -238,6 +239,7 @@ Widget customDivider({double dHeight = 3}) {
   );
 }
 
+// Function to create a rounded container with specified data, background color, and text color.
 Widget roundedContainer({
   required String data,
   required Color bgColor,

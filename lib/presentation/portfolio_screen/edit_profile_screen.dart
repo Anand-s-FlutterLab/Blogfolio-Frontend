@@ -6,10 +6,10 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.getUserProfile();
+    controller.getUserProfile(); // Fetch the user's profile data
     return Scaffold(
       backgroundColor: whiteColor,
-      appBar: customAppbar(title: "Edit Profile"),
+      appBar: customAppbar(title: "Edit Profile"), // Custom app bar with a title
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -25,7 +25,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                   clipBehavior: Clip.none,
                   children: [
                     Obx(
-                      () => Container(
+                          () => Container(
                         height: height * 0.25,
                         width: width * 0.5,
                         decoration: AppDecoration.containerBoxDecoration(
@@ -33,17 +33,17 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                         ),
                         child: controller.profileImage.value != null
                             ? Image.file(
-                                controller.profileImage.value!,
-                                fit: BoxFit.scaleDown,
-                              )
+                          controller.profileImage.value!,
+                          fit: BoxFit.scaleDown,
+                        )
                             : customImageView(
-                                url: userProfileURL.value.isEmpty
-                                    ? defaultProfileImage
-                                    : userProfileURL.value,
-                                imgHeight: height * 0.25,
-                                imgWidth: width * 0.5,
-                                fit: BoxFit.cover,
-                              ),
+                          url: userProfileURL.value.isEmpty
+                              ? defaultProfileImage
+                              : userProfileURL.value,
+                          imgHeight: height * 0.25,
+                          imgWidth: width * 0.5,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Positioned(
@@ -80,7 +80,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                   icon: Icons.person,
                   controller: controller.nameController..text = userName.value,
                   errorMessage: "Please Provide Name",
-                  readOnly: true,
+                  readOnly: true, // Make the field read-only
                   labelText: "Name",
                 ),
                 SizedBox(
@@ -91,7 +91,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                   icon: Icons.email_rounded,
                   controller: controller.emailController..text = email.value,
                   errorMessage: "Please Provide Email",
-                  readOnly: true,
+                  readOnly: true, // Make the field read-only
                   labelText: "Email",
                 ),
                 SizedBox(
@@ -110,14 +110,14 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                 titleBuilder(
                   title: "Projects",
                   addData: () {
-                    customBottomSheet(label: "project");
+                    customBottomSheet(label: "project"); // Show a custom bottom sheet to add projects
                   },
                 ),
                 SizedBox(
                   height: height * 0.02,
                 ),
                 Obx(
-                  () => ListView.builder(
+                      () => ListView.builder(
                     physics: const ClampingScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => Dismissible(
@@ -155,14 +155,14 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                 titleBuilder(
                   title: "Skills",
                   addData: () {
-                    customBottomSheet(label: "skill");
+                    customBottomSheet(label: "skill"); // Show a custom bottom sheet to add skills
                   },
                 ),
                 SizedBox(
                   height: height * 0.02,
                 ),
                 Obx(
-                  () => ListView.builder(
+                      () => ListView.builder(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     itemBuilder: (context, index) => Dismissible(
@@ -200,14 +200,14 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                 titleBuilder(
                   title: "Achievements",
                   addData: () {
-                    customBottomSheet(label: "achievement");
+                    customBottomSheet(label: "achievement"); // Show a custom bottom sheet to add achievements
                   },
                 ),
                 SizedBox(
                   height: height * 0.02,
                 ),
                 Obx(
-                  () => ListView.builder(
+                      () => ListView.builder(
                     physics: const ClampingScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => Dismissible(
@@ -240,19 +240,19 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => controller.updateUserProfile(),
+                  onTap: () => controller.updateUserProfile(), // Update the user's profile data
                   child: Container(
                     width: width,
                     padding: const EdgeInsets.only(bottom: 15, top: 15),
                     decoration: AppDecoration.buttonBoxDecoration(),
                     child: Obx(
-                      () => controller.isEditProfilePressed.value
+                          () => controller.isEditProfilePressed.value
                           ? customLoadingAnimation(size: width * 0.1)
                           : customText(
-                              text: "Submit",
-                              color: Colors.white,
-                              fontSize: width * 0.06,
-                            ),
+                        text: "Submit",
+                        color: Colors.white,
+                        fontSize: width * 0.06,
+                      ),
                     ),
                   ),
                 ),
@@ -267,6 +267,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
     );
   }
 
+  // Show a custom bottom sheet for adding data
   Future customBottomSheet({required String label}) {
     return Get.bottomSheet(
       Container(
@@ -318,6 +319,7 @@ class EditProfileScreen extends GetWidget<PortfolioController> {
   }
 }
 
+// Widget to build a section title with an "Add" button
 Widget titleBuilder({required String title, required VoidCallback addData}) {
   return Column(
     children: [
@@ -341,7 +343,7 @@ Widget titleBuilder({required String title, required VoidCallback addData}) {
             ),
             GestureDetector(
               onTap: () {
-                addData();
+                addData(); // Trigger the "Add" action
               },
               child: const Icon(Icons.add),
             )
@@ -359,14 +361,15 @@ Widget titleBuilder({required String title, required VoidCallback addData}) {
   );
 }
 
+// Widget to build a text input field
 Widget _buildTextInputField(
     {required String labelText,
-    required String hintText,
-    required TextEditingController controller,
-    required String errorMessage,
-    required IconData icon,
-    bool readOnly = false,
-    TextInputType textInputType = TextInputType.number}) {
+      required String hintText,
+      required TextEditingController controller,
+      required String errorMessage,
+      required IconData icon,
+      bool readOnly = false,
+      TextInputType textInputType = TextInputType.number}) {
   return Container(
     width: width == 50 ? Get.width - 75 : width,
     decoration: AppDecoration.inputBoxDecorationShadow(),

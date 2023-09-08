@@ -1,9 +1,12 @@
+// Import the necessary package.
 import 'package:dio/dio.dart';
 import 'package:flutter_frontend/core/app_export.dart';
 
+// Create a custom exception class for handling Dio errors.
 class DioException implements Exception {
   late String errorMessage;
 
+  // Constructor to create a DioException from a DioError.
   DioException.fromDioError(DioError dioError) {
     switch (dioError.type) {
       case DioErrorType.cancel:
@@ -23,6 +26,7 @@ class DioException implements Exception {
         break;
       case DioErrorType.unknown:
         if (dioError.message!.contains('SocketException')) {
+          // Display a snackbar when there's no internet connection.
           Get.snackbar('Alert', 'No Internet Connection');
           errorMessage = 'No Internet.';
           break;
@@ -35,6 +39,7 @@ class DioException implements Exception {
     }
   }
 
+  // Helper function to handle HTTP status codes.
   String _handleStatusCode(int? statusCode) {
     switch (statusCode) {
       case 400:
@@ -62,6 +67,7 @@ class DioException implements Exception {
     }
   }
 
+  // Override the toString method to provide a string representation of the exception.
   @override
   String toString() => errorMessage;
 }

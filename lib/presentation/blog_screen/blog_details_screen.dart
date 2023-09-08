@@ -1,16 +1,19 @@
 import 'package:flutter_frontend/core/app_export.dart';
 import 'package:flutter_frontend/presentation/blog_screen/controller/blog_controller.dart';
 
+// This is a Flutter screen for displaying the details of a blog post.
 class BlogDetailsScreen extends GetWidget<BlogController> {
   const BlogDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     int index = controller.currentSelectedBlog.value;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
+          // SliverAppBar with a flexible space for displaying the blog image.
           SliverAppBar(
             shape: const OutlineInputBorder(
               borderRadius: BorderRadius.only(
@@ -32,7 +35,7 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
               background: SizedBox(
                 height: height * 0.5,
                 child: Hero(
-                   tag: "BlogImage_${controller.blogModel.data[index].id}",
+                  tag: "BlogImage_${controller.blogModel.data[index].id}",
                   child: customImageView(
                     url: controller.blogModel.data[index].attributes.imageUrl,
                     imgHeight: height * 0.5,
@@ -44,12 +47,14 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
               ),
             ),
           ),
+          // SliverToBoxAdapter for displaying blog details.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Blog post title.
                   customText(
                     text: controller.blogModel.data[index].attributes.title,
                     textAlign: TextAlign.start,
@@ -57,11 +62,12 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
                     fontSize: width * 0.07,
                     maxLines: 3,
                   ),
+                  // Date and read time information.
                   Row(
                     children: [
                       customText(
                         text:
-                            "${controller.blogModel.data[index].attributes.updatedAt.toString().substring(0, 10)}・${controller.blogModel.data[index].attributes.readMin} min read",
+                        "${controller.blogModel.data[index].attributes.updatedAt.toString().substring(0, 10)}・${controller.blogModel.data[index].attributes.readMin} min read",
                         textAlign: TextAlign.start,
                         color: blackColor,
                         fontSize: width * 0.04,
@@ -69,9 +75,10 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
                       ),
                     ],
                   ),
+                  // Author information.
                   customText(
                     text:
-                        "Written by: ${controller.blogModel.data[index].attributes.author}",
+                    "Written by: ${controller.blogModel.data[index].attributes.author}",
                     textAlign: TextAlign.start,
                     color: greyColor,
                     fontSize: width * 0.04,
@@ -80,6 +87,7 @@ class BlogDetailsScreen extends GetWidget<BlogController> {
                   SizedBox(
                     height: height * 0.034,
                   ),
+                  // Blog post content.
                   Text(
                     controller.blogModel.data[index].attributes.content,
                     style: GoogleFonts.signikaNegative(

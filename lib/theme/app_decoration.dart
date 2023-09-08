@@ -1,6 +1,7 @@
+// Import the necessary packages and classes.
 import 'package:flutter_frontend/core/app_export.dart';
-import 'package:flutter_frontend/theme/app_style.dart';
 
+// Define a class for managing app decorations.
 class AppDecoration {
   static BoxDecoration inputBoxDecorationShadow() {
     return BoxDecoration(boxShadow: [
@@ -12,6 +13,7 @@ class AppDecoration {
     ]);
   }
 
+  // Define a static method for button box decoration.
   static BoxDecoration buttonBoxDecoration() {
     return BoxDecoration(
       gradient: LinearGradient(colors: [
@@ -29,6 +31,7 @@ class AppDecoration {
     );
   }
 
+  // Define a static method for container box decoration.
   static BoxDecoration containerBoxDecoration({
     double borderRadius = 12,
     Color color = Colors.white,
@@ -45,6 +48,7 @@ class AppDecoration {
         ]);
   }
 
+  // Define a static method for input box decoration with shadow and border.
   static BoxDecoration inputBoxDecorationShadowWithBorder() {
     return BoxDecoration(
         boxShadow: const [
@@ -58,6 +62,7 @@ class AppDecoration {
   }
 
 
+  // Define a method for text input decoration.
   InputDecoration textInputDecoration(
       {String lableText = "",
       String hintText = "",

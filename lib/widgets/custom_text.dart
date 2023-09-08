@@ -1,6 +1,8 @@
+// Import the necessary packages and classes.
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// Define a custom text widget.
 Widget customText({
   String text = "",
   Color color = Colors.black,

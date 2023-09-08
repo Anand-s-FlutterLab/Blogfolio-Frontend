@@ -8,6 +8,7 @@ import 'package:flutter_frontend/core/app_export.dart';
 import 'package:flutter_frontend/core/network/dio_exception.dart';
 import 'package:flutter_frontend/presentation/blog_screen/model/blog_model.dart';
 
+// This is a controller class for managing blog-related functionality.
 class BlogController extends GetxController {
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
@@ -32,20 +33,21 @@ class BlogController extends GetxController {
     profileImage.close();
   }
 
+  // Fetch a list of blogs from the server.
   Future<void> getBlogs() async {
     try {
       initialLoad.value = true;
       errorText.value = "";
       dio.Response response = await dio.Dio()
           .get(
-            "$baseUrl/blogs",
-            options: dio.Options(
-              headers: {"Authorization": token},
-            ),
-          )
+        "$baseUrl/blogs",
+        options: dio.Options(
+          headers: {"Authorization": token},
+        ),
+      )
           .timeout(
-            const Duration(seconds: 15),
-          );
+        const Duration(seconds: 15),
+      );
       blogModel = BlogModel.fromJson(response.data);
     } on dio.DioException catch (err) {
       final errorMessage = DioException.fromDioError(err).toString();
@@ -59,6 +61,7 @@ class BlogController extends GetxController {
     }
   }
 
+  // Add a new blog post.
   Future<void> addBlogs() async {
     try {
       isAddBlogPressed.value = true;
@@ -67,15 +70,14 @@ class BlogController extends GetxController {
         profileURL.value = await uploadImage();
       }
 
-      dio.Response responce = await dio.Dio().post(
+      dio.Response response = await dio.Dio().post(
         "$baseUrl/blogs",
         data: {
           "data": {
             "title": titleController.text,
             "content": contentController.text,
             "author": userName.value,
-            "imageUrl":
-                profileURL.isEmpty ? defaultBlogImage : profileURL.value,
+            "imageUrl": profileURL.isEmpty ? defaultBlogImage : profileURL.value,
             "authorID": userID.value,
             "readMin": readTimeController.text,
             "userProfileUrl": defaultProfileImage
@@ -105,6 +107,7 @@ class BlogController extends GetxController {
     }
   }
 
+  // Edit an existing blog post.
   Future<void> editBlog(int id) async {
     try {
       isAddBlogPressed.value = true;
@@ -112,7 +115,7 @@ class BlogController extends GetxController {
       if (profileImage.value != null) {
         profileURL.value = await uploadImage();
       }
-      dio.Response responce = await dio.Dio().put(
+      dio.Response response = await dio.Dio().put(
         "$baseUrl/blogs/$id",
         data: {
           "data": {
@@ -145,9 +148,10 @@ class BlogController extends GetxController {
     }
   }
 
+  // Delete a blog post.
   Future<void> deleteBlog(int id) async {
     try {
-      dio.Response responce = await dio.Dio().delete(
+      dio.Response response = await dio.Dio().delete(
         "$baseUrl/blogs/$id",
         options: dio.Options(
           headers: {"Authorization": token},
@@ -164,14 +168,16 @@ class BlogController extends GetxController {
     }
   }
 
+  // Open an image picker to select a profile image.
   Future<void> openImagePicker() async {
     final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+    await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       profileImage.value = File(pickedImage.path);
     }
   }
 
+  // Upload an image to Firebase Storage and get its URL.
   Future<String> uploadImage() async {
     try {
       final FirebaseStorage storage = FirebaseStorage.instance;
@@ -195,6 +201,7 @@ class BlogController extends GetxController {
     }
   }
 
+  // Populate form fields for editing a blog post.
   void onEdit() {
     titleController.text =
         blogModel.data[currentSelectedBlog.value].attributes.title;
