@@ -1,6 +1,7 @@
 import 'package:flutter_frontend/presentation/portfolio_screen/controller/portfolio_controller.dart';
 import 'package:flutter_frontend/core/app_export.dart';
 
+// This class represents the Profile Screen and extends GetWidget to access the PortfolioController.
 class ProfileScreen extends GetWidget<PortfolioController> {
   const ProfileScreen({super.key});
 
@@ -8,7 +9,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
-      appBar: customAppbar(title: "Profile"),
+      appBar: customAppbar(title: "Profile"), // Custom app bar with a title "Profile".
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -17,6 +18,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
               children: [
                 Row(
                   children: [
+                    // Container for the user's profile image.
                     Container(
                       decoration: AppDecoration.containerBoxDecoration(
                         borderRadius: 12,
@@ -37,6 +39,7 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // User's name.
                         customText(
                           text: controller.portfolioModel.name,
                           fontSize: width * 0.08,
@@ -46,12 +49,13 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                         const SizedBox(
                           height: 5,
                         ),
+                        // User's email and mobile information.
                         customText(
                             text:
-                                "Email: ${controller.portfolioModel.emailAddress}"),
+                            "Email: ${controller.portfolioModel.emailAddress}"),
                         customText(
                             text:
-                                "Mobile: ${controller.portfolioModel.mobile}"),
+                            "Mobile: ${controller.portfolioModel.mobile}"),
                       ],
                     )
                   ],
@@ -59,10 +63,12 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                 const SizedBox(
                   height: 30,
                 ),
+                // Section title for "Projects".
                 titleBuilder(title: "Projects"),
                 const SizedBox(
                   height: 20,
                 ),
+                // Custom grid view for displaying projects.
                 customGridViewBuilder(
                   itemCount: controller.portfolioModel.projects.length,
                   backgroundColor: Colors.pink.withOpacity(0.1),
@@ -72,10 +78,12 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                 const SizedBox(
                   height: 20,
                 ),
+                // Section title for "Skills".
                 titleBuilder(title: "Skills"),
                 const SizedBox(
                   height: 20,
                 ),
+                // Custom grid view for displaying skills.
                 customGridViewBuilder(
                   itemCount: controller.portfolioModel.skills.length,
                   backgroundColor: Colors.orangeAccent.withOpacity(0.2),
@@ -85,10 +93,12 @@ class ProfileScreen extends GetWidget<PortfolioController> {
                 const SizedBox(
                   height: 20,
                 ),
+                // Section title for "Achievements".
                 titleBuilder(title: "Achievements"),
                 const SizedBox(
                   height: 20,
                 ),
+                // Custom grid view for displaying achievements.
                 customGridViewBuilder(
                   itemCount: controller.portfolioModel.achievements.length,
                   backgroundColor: Colors.cyan.withOpacity(0.1),
@@ -100,11 +110,12 @@ class ProfileScreen extends GetWidget<PortfolioController> {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavigationWidget(),
+      bottomNavigationBar: const BottomNavigationWidget(), // Bottom navigation bar.
     );
   }
 }
 
+// Function to create a section title with a horizontal line.
 Widget titleBuilder({required String title}) {
   return Column(
     children: [
@@ -132,6 +143,7 @@ Widget titleBuilder({required String title}) {
   );
 }
 
+// Function to create a custom grid view for displaying items.
 Widget customGridViewBuilder({
   required int itemCount,
   required Color backgroundColor,

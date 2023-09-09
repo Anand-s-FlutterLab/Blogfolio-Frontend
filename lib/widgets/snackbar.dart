@@ -1,13 +1,21 @@
+// Import the necessary package.
 import 'package:flutter_frontend/core/app_export.dart';
 
+// Define a custom snackbar controller function.
 SnackbarController customSnackBar(String title, String subtitle,
     [String colorSelector = "red"]) {
+
+  // Define a map to associate color selectors with colors.
   Map<String, Color> colors = {
     'red': Colors.red,
     'green': Colors.green,
     'blue': Colors.blue,
   };
+
+  // Get the color based on the color selector.
   Color? color = colors[colorSelector];
+
+  // Create and return a Get.snackbar widget.
   return Get.snackbar(
     title,
     subtitle,
@@ -24,9 +32,9 @@ SnackbarController customSnackBar(String title, String subtitle,
     titleText: Text(
       title,
       style: AppStyle.textFormFieldStyle(
-        fontSize: width * 0.05,
-        color: color,
-        fontWeight: FontWeight.bold
+          fontSize: width * 0.05,
+          color: color,
+          fontWeight: FontWeight.bold
       ),
     ),
     isDismissible: true,

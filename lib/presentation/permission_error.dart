@@ -1,7 +1,9 @@
 import 'package:flutter_frontend/core/app_export.dart';
 
+// Import the permission handler utility.
 import '../core/Utils/permission_handler.dart';
 
+// Define a StatelessWidget for the permission error screen.
 class PermissionErrorScreen extends StatelessWidget {
   const PermissionErrorScreen({super.key});
 
@@ -25,8 +27,8 @@ class PermissionErrorScreen extends StatelessWidget {
                 child: Container(
                   height: Get.height - 175,
                   width: Get.width,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(60.0)),
                     color: Colors.white,
                   ),
@@ -80,6 +82,7 @@ class PermissionErrorScreen extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       onPressed: () {
+                        // Request the required permissions when the button is pressed.
                         PermissionManager.requestRequiredPermissions();
                       },
                       height: 80,

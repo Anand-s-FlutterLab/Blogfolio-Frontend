@@ -4,7 +4,7 @@ import 'package:flutter_frontend/presentation/login_screen/model/login_model.dar
 
 class LoginController extends GetxController {
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-  late LoginModel loginModel;
+  late LoginModel loginModel; // Declare loginModel to hold user data
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -12,12 +12,13 @@ class LoginController extends GetxController {
   RxBool isLogin = false.obs;
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
   }
 
+  // Validating User
   Future<void> onLogin() async {
     if (loginFormKey.currentState!.validate()) {
       try {
@@ -40,6 +41,7 @@ class LoginController extends GetxController {
     }
   }
 
+  //Getting User Data From Firebase
   Future<void> getUserData(String userId) async {
     try {
       final DocumentSnapshot snapshot = await FirebaseFirestore.instance
@@ -49,7 +51,7 @@ class LoginController extends GetxController {
 
       if (snapshot.exists) {
         final data = snapshot.data() as Map<String, dynamic>;
-        LoginModel loginModel = LoginModel.fromJson(data);
+        LoginModel loginModel = LoginModel.fromJson(data); // Parse user data
         userID.value = FirebaseAuth.instance.currentUser!.uid;
         userName.value = loginModel.name;
         await writeStorage(storageUserName, loginModel.name);

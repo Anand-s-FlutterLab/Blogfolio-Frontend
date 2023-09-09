@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_frontend/core/app_export.dart';
 
+// Define a StatelessWidget for the error screen.
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key});
 
@@ -14,9 +15,9 @@ class ErrorScreen extends StatelessWidget {
           width: Get.width,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-            Colors.blue.shade400,
-            Colors.blue.shade800,
-          ])),
+                Colors.blue.shade400,
+                Colors.blue.shade800,
+              ])),
           child: Column(
             children: [
               Container(
@@ -82,6 +83,7 @@ class ErrorScreen extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                       onPressed: () {
+                        // Handle navigation based on user authentication status.
                         if (FirebaseAuth.instance.currentUser != null) {
                           Get.offNamed(AppRoutes.blogScreen);
                         } else {

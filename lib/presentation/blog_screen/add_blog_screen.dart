@@ -1,6 +1,7 @@
 import 'package:flutter_frontend/core/app_export.dart';
 import 'package:flutter_frontend/presentation/blog_screen/controller/blog_controller.dart';
 
+// This is a Flutter screen for adding or editing a blog post.
 class AddBlogScreen extends GetWidget<BlogController> {
   const AddBlogScreen({super.key});
 
@@ -16,6 +17,7 @@ class AddBlogScreen extends GetWidget<BlogController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // Stack for displaying an image picker and edit button.
               Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -49,6 +51,7 @@ class AddBlogScreen extends GetWidget<BlogController> {
               SizedBox(
                 height: height * 0.03,
               ),
+              // Text input field for the blog post title.
               _buildTextInputField(
                 labelText: "Title",
                 controller: controller.titleController,
@@ -59,6 +62,7 @@ class AddBlogScreen extends GetWidget<BlogController> {
               SizedBox(
                 height: height * 0.03,
               ),
+              // Text input field for the blog post content.
               _buildTextInputField(
                 labelText: "Content",
                 controller: controller.contentController,
@@ -70,16 +74,18 @@ class AddBlogScreen extends GetWidget<BlogController> {
               SizedBox(
                 height: height * 0.03,
               ),
+              // Text input field for the reading time in minutes.
               _buildTextInputField(
                 labelText: "Reading Time (Min)",
                 controller: controller.readTimeController,
                 icon: Icons.chrome_reader_mode_outlined,
-                hintText: "Enter Title Read Minutes Here",
+                hintText: "Enter Read Minutes Here",
                 errorMessage: "Please Enter Valid Read Min",
               ),
               SizedBox(
                 height: height * 0.04,
               ),
+              // Submit button for adding or editing the blog post.
               GestureDetector(
                 onTap: () {
                   var data = [];
@@ -95,13 +101,13 @@ class AddBlogScreen extends GetWidget<BlogController> {
                   padding: const EdgeInsets.only(bottom: 15, top: 15),
                   decoration: AppDecoration.buttonBoxDecoration(),
                   child: Obx(
-                    () => controller.isAddBlogPressed.value
+                        () => controller.isAddBlogPressed.value
                         ? customLoadingAnimation(size: width * 0.1)
                         : customText(
-                            text: "Submit",
-                            color: Colors.white,
-                            fontSize: width * 0.06,
-                          ),
+                      text: "Submit",
+                      color: Colors.white,
+                      fontSize: width * 0.06,
+                    ),
                   ),
                 ),
               ),
@@ -112,12 +118,13 @@ class AddBlogScreen extends GetWidget<BlogController> {
     );
   }
 
+  // Widget for building the image picker.
   Widget _buildImagePicker() {
     return SizedBox(
       width: width * 0.5,
       height: height * 0.25,
       child: Obx(
-        () => GestureDetector(
+            () => GestureDetector(
           onTap: () {
             controller.openImagePicker();
           },
@@ -134,15 +141,15 @@ class AddBlogScreen extends GetWidget<BlogController> {
               ),
               child: controller.profileImage.value != null
                   ? Image.file(controller.profileImage.value!,
-                      fit: BoxFit.cover)
+                  fit: BoxFit.cover)
                   : customImageView(
-                      url: controller.profileURL.value.isEmpty
-                          ? defaultBlogImage
-                          : controller.profileURL.value,
-                      imgHeight: height * 0.25,
-                      imgWidth: width * 0.5,
-                      fit: BoxFit.cover,
-                    ),
+                url: controller.profileURL.value.isEmpty
+                    ? defaultBlogImage
+                    : controller.profileURL.value,
+                imgHeight: height * 0.25,
+                imgWidth: width * 0.5,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -151,6 +158,7 @@ class AddBlogScreen extends GetWidget<BlogController> {
   }
 }
 
+// Widget for building a text input field.
 Widget _buildTextInputField({
   required String labelText,
   required String hintText,
@@ -168,7 +176,7 @@ Widget _buildTextInputField({
       keyboardType: textInputType,
       maxLines: maxLine ? null : 1,
       decoration: AppDecoration().textInputDecoration(
-          lableText: labelText, icon: icon, hintText: labelText),
+          lableText:  labelText, icon: icon, hintText: labelText),
       controller: controller,
       validator: (value) {
         if (value == null || value.trim().isEmpty) {

@@ -4,6 +4,7 @@ import 'package:flutter_frontend/presentation/contact_form_screen/controller/con
 class ContactFormBindings extends Bindings {
   @override
   void dependencies() {
+    // Register ContactFormController as a lazy dependency
     Get.lazyPut(() => ContactFormController());
   }
 }
